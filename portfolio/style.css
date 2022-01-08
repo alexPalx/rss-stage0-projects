@@ -148,34 +148,27 @@ p {
 
 .section-title {
     display: flex;
+    justify-content: center;
     width: 49vw;
+    max-width: 1400px;
     height: 80px;
     padding: 0 20px;
     margin: 0 auto 60px auto;
     overflow: hidden;
     font: 700 40px 'Merriweather', serif;
-    text-align: center;
     color: var(--gold-color);
     font-size: 40px;
     line-height: 80px;
 }
 
-.section-title::after {
-    width: 400px;
-    height: 0px;
-
-    margin: 39px 20px;
-
-    content: '';
-    border: 1px solid var(--gold-color);
-}
+.section-title::after,
 .section-title::before {
     width: 400px;
     height: 0px;
-    content: '';
 
     margin: 39px 20px;
 
+    content: '';
     border: 1px solid var(--gold-color);
 }
 
@@ -224,5 +217,29 @@ p {
 
 .portfolio-row img {
     width: 450px;
-    height: 560px;
+}
+
+.video-container {
+    padding-bottom: 95px;
+    text-align: center;
+}
+
+.video-player {
+    width: 1400px;
+    height: 705px;
+    margin: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-play-button {
+    position: absolute;
+    width: 130px;
+    fill: #ffffff;
+}
+
+.video-play-button:hover {
+    fill: #bdae82;
 }
