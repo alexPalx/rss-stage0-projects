@@ -3,9 +3,12 @@
 font-family: 'Inter', sans-serif;
 font-family: 'Merriweather', serif;
 */
+:root {
+    --gold-color: #bdae82;
+}
 
 * {
-    font: 18px 'Inter', sans-serif;
+    font: 20px 'Inter', sans-serif;
     color: #ffffff;
     transition: 0.4s;
 }
@@ -19,7 +22,12 @@ a {
 }
 
 a:hover {
-    color: #bdae82;
+    color: var(--gold-color);
+}
+
+h1,
+p {
+    margin: 0;
 }
 
 .container {
@@ -69,7 +77,7 @@ a:hover {
 }
 
 .image-logo:hover {
-    fill: #bdae82;
+    fill: var(--gold-color);
 }
 
 .button-change-language {
@@ -81,5 +89,39 @@ a:hover {
 .color-gold {
     font-weight: inherit;
     font-size: inherit;
-    color: #bdae82;
+    color: var(--gold-color);
+}
+
+.hero-container {
+    height: 910px;
+
+    padding: 160px 0 0 80px;
+
+    background-image: url('assets/img/bg.jpg');
+    background-position: center -90px;
+    background-repeat: no-repeat;
+}
+
+#hero h1 {
+    font: 700 60px 'Merriweather', serif;
+    line-height: 120px
+}
+
+#hero p {
+    font-size: 20px;
+    line-height: 40px;
+
+    margin: 10px 0 25px 0;
+}
+
+.button {
+    color: #000000;
+    background-color: var(--gold-color);
+    width: 220px;
+    height: 55px;
+    border: none;
+}
+
+.button:hover {
+    color: #ffffff;
 }
