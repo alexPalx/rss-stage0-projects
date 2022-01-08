@@ -10,11 +10,19 @@ font-family: 'Merriweather', serif;
 * {
     font: 20px 'Inter', sans-serif;
     color: #ffffff;
-    transition: 0.4s;
 }
 
 html {
     scroll-behavior: smooth;
+}
+
+body {
+    background-color: #000000;
+}
+
+svg,
+a {
+    transition: 0.4s;
 }
 
 a {
@@ -67,16 +75,15 @@ p {
     background-position: center 0;
 }
 
-.image-logo {
+.logo {
     display: block;
     width: 50px;
     height: 50px;
     margin: 20px;
-    transition: 0.1s;
     fill: #ffffff;
 }
 
-.image-logo:hover {
+.logo:hover {
     fill: var(--gold-color);
 }
 
@@ -93,13 +100,17 @@ p {
 }
 
 .hero-container {
-    height: 910px;
+    height: 820px;
 
-    padding: 160px 0 0 80px;
+    padding-bottom: 100px;
 
     background-image: url('assets/img/bg.jpg');
     background-position: center -90px;
     background-repeat: no-repeat;
+}
+
+#hero {
+    padding: 160px 0 0 80px;
 }
 
 #hero h1 {
@@ -120,8 +131,71 @@ p {
     width: 220px;
     height: 55px;
     border: none;
+    transition: 0.3s;
+    cursor: pointer;
 }
 
 .button:hover {
     color: #ffffff;
+}
+
+.section-title {
+    display: flex;
+    width: 49vw;
+    height: 80px;
+    padding: 0 20px;
+    margin: 0 auto 60px auto;
+    overflow: hidden;
+    font: 700 40px 'Merriweather', serif;
+    text-align: center;
+    color: var(--gold-color);
+    font-size: 40px;
+    line-height: 80px;
+}
+
+.section-title::after {
+    width: 400px;
+    height: 0px;
+
+    margin: 39px 20px;
+
+    content: '';
+    border: 1px solid var(--gold-color);
+}
+.section-title::before {
+    width: 400px;
+    height: 0px;
+    content: '';
+
+    margin: 39px 20px;
+
+    border: 1px solid var(--gold-color);
+}
+
+.skills-container {
+    height: 482px;
+}
+
+.skills-section {
+    width: 320px;
+    height: 240px;
+    padding: 0 20px 2px 20px;
+}
+
+.skills-row {
+    display: flex;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.skills-row h2 {
+    font-weight: 700;
+    line-height: 40px;
+    margin: 45px 0 20px 0;
+}
+
+.skills-row p {
+    font-size: 18px;
+    line-height: 36px;
 }
