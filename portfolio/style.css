@@ -458,6 +458,21 @@ p {
 
 
 
+    /*---------------- Main ----------------*/
+    .section-title {
+        font-size: 32px;
+        margin-bottom: 45px;
+        width: 58vw;
+        max-width: 786px;
+    }
+
+    .section-title::after,
+    .section-title::before {
+    width: 115px;
+    }
+
+
+
     /*---------------- Hero ----------------*/
     .hero .container {
         background-size: 980px;
@@ -478,5 +493,54 @@ p {
         font-size: 20px;
         margin-top: 20px;
         margin-bottom: 60px;
+    }
+
+
+
+    /*--------------- Skills ---------------*/
+    .skills .container {
+        margin-bottom: 100px;
+    }
+
+    .skills__row {
+        gap: 25px;
+    }
+
+    .skills-item__title {
+        margin: 19px 0 19px 0;
+    }
+
+    .skills-item__text {
+        line-height: 21.78px;
+    }
+
+
+
+    /*------------- Portfolio --------------*/
+    .portfolio-buttons__row {
+        margin: 3px;
+    }
+
+    .portfolio-buttons__row:last-child {
+        margin-bottom: 0;
+    }
+
+
+
+    /*--------------- Video ----------------*/
+    .video-player {
+        width: 100vw;
+        height: auto;
+    }
+
+    .video-player__image {
+        margin-top: 4px;
+        height: 54.5vw;
+        transform: translateX(3.3vw);
+    }
+
+    .video-player__button {
+        width: 65px;
+        height: 65px;
     }
 }
