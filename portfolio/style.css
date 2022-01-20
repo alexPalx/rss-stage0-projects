@@ -167,7 +167,8 @@ p {
 }
 
 .hero__text {
-    width: 400px;
+    max-width: 400px;
+    min-width: 200px;
     font: 400 20px/40px 'Inter', sans-serif;
     margin: 10px 0 25px 0;
 }
@@ -430,6 +431,54 @@ p {
     color: var(--gold-color);
 }
 
+
+
+@media (max-width: 1439px) {
+    .video-player {
+        width: 100vw;
+        height: auto;
+    }
+
+    .video-player__image {
+        margin-top: 4px;
+        height: 54.5vw;
+        transform: translateX(3.3vw);
+    }
+
+    .video-player__button {
+        width: 100px;
+        height: 100px;
+    }
+
+    .price__row {
+        flex-direction: column;
+        align-items: center;
+        gap: 50px
+    }
+
+    .contacts__block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    .contacts__title {
+        margin-top: 60px;
+        font: 700 32px/64px 'Merriweather', serif;
+    }
+
+    .portfolio-buttons__row {
+        margin: 3px;
+    }
+
+    .portfolio-buttons__row:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+
 @media (max-width: 768px) {
     /*---------------- Body ----------------*/
     .container {
@@ -517,12 +566,9 @@ p {
 
 
     /*------------- Portfolio --------------*/
-    .portfolio-buttons__row {
-        margin: 3px;
-    }
 
-    .portfolio-buttons__row:last-child {
-        margin-bottom: 0;
+    .portfolio__image {
+        min-width: 320px;
     }
 
 
@@ -547,14 +593,9 @@ p {
 
 
     /*--------------- Price ----------------*/
-    .price__row {
-        flex-direction: column;
-        align-items: center;
-        gap: 50px
-    }
-
     .price-item {
-        max-width: 420px;
+        width: 420px;
+        max-width: 100%;
     }
 
     .price-item:first-child {
@@ -571,19 +612,17 @@ p {
         background-position: -31vw 0vw;
     }
 
-    .contacts__block {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0;
+    .contacts__item {
+        max-width: 100%;
     }
 
-    .contacts__title {
-        margin-top: 60px;
-        font: 700 32px/64px 'Merriweather', serif;
+    .contacts__input-email,
+    .contacts__input-tel,
+    .contacts__textarea {
+        max-width: 100%;
     }
 
-    
+
 
     /*------------- Footer ---------------*/
     .footer .container {
