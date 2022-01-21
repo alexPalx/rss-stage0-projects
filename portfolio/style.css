@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:wght@400;700&display=swap');
 
 /*
 font-family: 'Inter', sans-serif;
@@ -14,6 +14,11 @@ font-family: 'Merriweather', serif;
     box-sizing: border-box;
     font: 400 20px/30px 'Inter', sans-serif;
     color: #ffffff;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent; 
 }
 
 html {
@@ -47,7 +52,7 @@ p {
 }
 
 .container {
-    width: 1440px;
+    max-width: 1440px;
     margin: 0 auto;
     margin-bottom: 100px;
 }
@@ -56,11 +61,11 @@ p {
     display: block;
 }
 
-.header,
+/* .header,
 .main,
 .footer {
     padding: 0 20px;
-}
+} */
 
 
 
@@ -88,6 +93,8 @@ p {
 
 .header-nav {
     margin-left: auto;
+    transition: 0.5s;
+    z-index: 9;
 }
 
 .header-nav__list {
@@ -110,7 +117,32 @@ p {
     font-size: 20px;
 }
 
+.hamburger-button {
+    display: none;
+    position: absolute;
+    z-index: 10;
+}
 
+.hamburger-button__line {
+    width: 50px;
+    height: 3px;
+    margin: 9.5px 0;
+    display: block;
+    background-color: #ffffff;
+    transition: 0.5s;
+}
+
+.hamburger-button.open .hamburger-button__line:nth-child(1) {
+    transform: translateY(12.75px) rotate(-45deg);
+}
+
+.hamburger-button.open .hamburger-button__line:nth-child(2) {
+    transform: translateX(200px);
+}
+
+.hamburger-button.open .hamburger-button__line:nth-child(3) {
+    transform: translateY(-12.75px) rotate(45deg);
+}
 
 /*---------------- Main ----------------*/
 .main > .container {
@@ -162,6 +194,8 @@ p {
 }
 
 .hero__text {
+    max-width: 400px;
+    min-width: 200px;
     font: 400 20px/40px 'Inter', sans-serif;
     margin: 10px 0 25px 0;
 }
@@ -204,7 +238,16 @@ p {
     text-align: center;
 }
 
-/* .portfolio__buttons {} */
+.portfolio__buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* 
+.portfolio-buttons__row {
+        
+} */
 
 .portfolio__images {
     display: flex;
@@ -413,4 +456,261 @@ p {
     font-weight: inherit;
     font-size: inherit;
     color: var(--gold-color);
+}
+
+
+
+@media (max-width: 1439px) {
+    .video-player {
+        width: 100vw;
+        height: auto;
+    }
+
+    .video-player__image {
+        margin-top: 4px;
+        height: 54.5vw;
+        transform: translateX(3.3vw);
+    }
+
+    .video-player__button {
+        width: 100px;
+        height: 100px;
+    }
+
+    .price__row {
+        flex-direction: column;
+        align-items: center;
+        gap: 50px
+    }
+
+    .contacts__block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    .contacts__title {
+        margin-top: 60px;
+        font: 700 32px/64px 'Merriweather', serif;
+    }
+
+    .portfolio-buttons__row {
+        margin: 3px;
+    }
+
+    .portfolio-buttons__row:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    /*---------------- Body ----------------*/
+    .container {
+        margin-bottom: 80px;
+    }
+
+
+
+    /*--------------- Header ---------------*/
+    .header .container {
+        background-size: 980px;
+        background-position: 2% -30px;
+    }
+
+    .header__logo {
+        margin-left: 60px;
+    }
+
+    .button-language {
+        margin-left: auto;
+        margin-right: 129px;
+    }
+
+    .header-nav {
+        position: fixed;
+        width: 620px;
+        height: 100vh;
+        background-color: #000000;
+        top: 0;
+        right: -620px;
+    }
+
+    .header-nav.open {
+        right: 0;
+    }
+
+    .header-nav__list {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 150px;
+        margin: 134px 344px auto 127px;
+    }
+
+    .header-nav__item {
+        margin-bottom: 12px;
+    }
+
+    .header-nav__link {
+        font: 400 35px/73px 'Inter', sans-serif;
+    }
+
+    .hamburger-button {
+        display: block;
+        position: fixed;
+        right: 64px;
+    }
+
+
+
+    /*---------------- Main ----------------*/
+    .section-title {
+        font-size: 32px;
+        margin-bottom: 45px;
+        width: 58vw;
+        max-width: 786px;
+    }
+
+    .section-title::after,
+    .section-title::before {
+    width: 115px;
+    }
+
+
+
+    /*---------------- Hero ----------------*/
+    .hero .container {
+        background-size: 980px;
+        background-position: 2% -120px;
+        height: auto;
+    }
+
+    .hero__block {
+        padding: 78px 60px 150px 60px;
+    }
+
+    .hero__title {
+        font: 400 32px/64px 'Merriweather', serif;
+    }
+
+    .hero__text {
+        line-height: 24.2px;
+        font-size: 20px;
+        margin-top: 20px;
+        margin-bottom: 60px;
+    }
+
+
+
+    /*--------------- Skills ---------------*/
+    .skills .container {
+        margin-bottom: 100px;
+    }
+
+    .skills__row {
+        gap: 25px;
+    }
+
+    .skills-item__title {
+        margin: 19px 0 19px 0;
+    }
+
+    .skills-item__text {
+        line-height: 21.78px;
+    }
+
+
+
+    /*------------- Portfolio --------------*/
+
+    .portfolio__image {
+        min-width: 320px;
+    }
+
+
+
+    /*--------------- Video ----------------*/
+    .video-player {
+        width: 100vw;
+        height: auto;
+    }
+
+    .video-player__image {
+        margin-top: 4px;
+        height: 54.5vw;
+        transform: translateX(3.3vw);
+    }
+
+    .video-player__button {
+        width: 65px;
+        height: 65px;
+    }
+
+
+
+    /*--------------- Price ----------------*/
+    .price-item {
+        width: 420px;
+        max-width: 100%;
+    }
+
+    .price-item:first-child {
+        margin-top: 5px;
+    }
+
+
+
+    /*------------- Contacts ---------------*/
+    .contacts .container {
+        max-height: 600px;
+        background-size: 1237px;
+        
+        background-position: -31vw 0vw;
+    }
+
+    .contacts__item {
+        max-width: 100%;
+    }
+
+    .contacts__input-email,
+    .contacts__input-tel,
+    .contacts__textarea {
+        max-width: 100%;
+    }
+
+
+
+    /*------------- Footer ---------------*/
+    .footer .container {
+        height: 200px;
+    }
+
+    .footer__row {
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .footer__social-list {
+        margin-top: 17px;
+    }
+
+    .social-list__link {
+        margin: 0 10px;
+    }
+}
+
+@media (max-width: 619px) {
+    .header-nav {
+        width: 100vw;
+    }
+
+    .header-nav__list{
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
