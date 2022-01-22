@@ -31,6 +31,7 @@ html {
 body {
     background-color: #000000;
     margin: 0;
+    overflow-x: hidden;
 }
 
 svg,
@@ -468,8 +469,8 @@ p {
 
     .video-player__image {
         margin-top: 4px;
+        width: 100vw;
         height: 54.5vw;
-        transform: translateX(3.3vw);
     }
 
     .video-player__button {
@@ -639,8 +640,6 @@ p {
 
     .video-player__image {
         margin-top: 4px;
-        height: 54.5vw;
-        transform: translateX(3.3vw);
     }
 
     .video-player__button {
