@@ -278,10 +278,9 @@ p {
     flex-wrap: wrap;
 }
 
-/* 
 .portfolio-buttons__row {
-        
-} */
+        margin: 0 3px;
+}
 
 .portfolio__images {
     display: flex;
@@ -317,12 +316,13 @@ p {
 .video-player__button {
     position: absolute;
     width: 130px;
-    fill: var(--text-color);
+    fill: #ffffff;
 }
 
 .video-player__button:hover {
-    fill: #ffffff;
+    fill: var(--gold-color)
 }
+
 
 
 
@@ -480,6 +480,7 @@ p {
 }
 
 .button:hover {
+    transform: translateY(-3px);
     color: #ffffff;
 }
 
@@ -504,6 +505,17 @@ p {
     background: none;
     border: none;
     margin: 0 12px;
+}
+
+.button-language span {
+    font: 700 20px/50px 'Inter', sans-serif;
+    transition: 0.3s;
+}
+
+.button-language span:hover,
+.button-language_active {
+    cursor: pointer;
+    color: var(--gold-color);
 }
 
 .color-gold{
