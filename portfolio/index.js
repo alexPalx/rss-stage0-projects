@@ -81,14 +81,43 @@ const i18Obj = {
     }
 }
 
+let theme = 0;
+let language = 'en';
+
+function loadLocalData() {
+    if(localStorage.getItem('language')) {
+        translate(localStorage.getItem('language'));
+    } else {
+        localStorage.setItem('language', 'en');
+    }
+
+    if(localStorage.getItem('theme')) {
+        theme = Number(localStorage.getItem('theme'));
+        changeTheme();
+        changeTheme();
+    } else {
+        localStorage.setItem('theme', theme);
+    }
+}
+window.addEventListener('load', loadLocalData)
+
+
+
 const objectsToTranslate = document.body.querySelectorAll('[data-i18]');
 const translate = (lang) => {
     objectsToTranslate.forEach(obj => {
         obj.innerHTML = i18Obj[lang][obj.getAttribute('data-i18')];
     });
+    localStorage.setItem('language', lang);
 };
 const changeLangButton = document.querySelector('.button-language');
 const changeLangButtons = document.querySelectorAll('.button-language__lang');
+
+if (localStorage.getItem('language') === 'en')
+    changeLangButtons[0].classList.add('button-language_active')
+else
+    changeLangButtons[1].classList.add('button-language_active')
+
 changeLangButton.addEventListener('click', (event) => { 
     if (event.target.className === 'button-language__lang') {
         changeLangButtons.forEach(button => button.classList.remove('button-language_active'));
@@ -98,7 +127,6 @@ changeLangButton.addEventListener('click', (event) => {
 });
 
 
-let theme = (document.body.classList.contains('light-theme')) ? 1 : 0;
 const themeButton = document.querySelector('.header__theme');
 const themeButtonSvg = document.querySelector('.header__theme use');
 const headerBackground = document.querySelector('.header .container');
@@ -133,6 +161,7 @@ const changeTheme = (event) => {
         });
         themeButtonSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "assets/svg/icons.svg#dark-theme");
         theme = 1;
+        localStorage.setItem('theme', theme);
     } else {
         document.body.classList.remove('light-theme');
         headerBackground.classList.remove('light-theme');
@@ -144,6 +173,7 @@ const changeTheme = (event) => {
         });
         themeButtonSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "assets/svg/icons.svg#light-theme");
         theme = 0;
+        localStorage.setItem('theme', theme);
     }
 };
 
