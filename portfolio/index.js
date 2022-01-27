@@ -80,7 +80,7 @@ const i18Obj = {
         'send-message': 'Отправить'
     }
 }
-
+/*----------------------- local data --------------------------*/
 let theme = 0;
 let language = 'en';
 
@@ -102,7 +102,7 @@ function loadLocalData() {
 window.addEventListener('load', loadLocalData)
 
 
-
+/*----------------------- translate --------------------------*/
 const objectsToTranslate = document.body.querySelectorAll('[data-i18]');
 const translate = (lang) => {
     objectsToTranslate.forEach(obj => {
@@ -127,12 +127,6 @@ changeLangButton.addEventListener('click', (event) => {
 });
 
 
-const themeButton = document.querySelector('.header__theme');
-const themeButtonSvg = document.querySelector('.header__theme use');
-const headerBackground = document.querySelector('.header .container');
-const heroBackground = document.querySelector('.hero .container');
-const contactsBackground = document.querySelector('.contacts .container');
-const buttons = document.querySelectorAll('.button');
 
 /*----------------------- hamburger button --------------------------*/
 const hamburgerButton = document.querySelector('.hamburger-button');
@@ -148,8 +142,18 @@ navMenu.addEventListener('click', (event) => {
     if (event.target.className === 'header-nav__link')
         hamburgerToggle();
 });
+
+
+
 /*------------------------- theme change ----------------------------*/
-const changeTheme = (event) => {
+const themeButton = document.querySelector('.header__theme');
+const themeButtonSvg = document.querySelector('.header__theme use');
+const headerBackground = document.querySelector('.header .container');
+const heroBackground = document.querySelector('.hero .container');
+const contactsBackground = document.querySelector('.contacts .container');
+const buttons = document.querySelectorAll('.button');
+
+const changeTheme = () => {
     if (theme === 0) {
         document.body.classList.add('light-theme');
         headerBackground.classList.add('light-theme');
