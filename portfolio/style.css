@@ -439,7 +439,7 @@ p {
 .button_active {
     color: #000000;
     background-color: var(--gold-color);
-    border: none;
+    /* border: none; */
 }
 
 .button:hover {

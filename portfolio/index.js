@@ -1,24 +1,51 @@
+/*----------------------- hamburger button --------------------------*/
 const hamburgerButton = document.querySelector('.hamburger-button');
 const navMenu = document.querySelector('.header-nav');
 
-const handler = () => {
+const hamburgerToggle = () => {
     hamburgerButton.classList.toggle('open');
     navMenu.classList.toggle('open');
 };
 
-hamburgerButton.addEventListener('click', handler);
+hamburgerButton.addEventListener('click', hamburgerToggle);
 navMenu.addEventListener('click', (event) => { 
     if (event.target.className === 'header-nav__link')
-        handler();
+        hamburgerToggle();
 });
 
-console.log(`Самопроверка
 
-Вёрстка соответствует макету. Ширина экрана 768px +48 (возможно, стоит снять несколько баллов из-за некоторых кривых моментов)
 
-Ни на одном из разрешений до 320px включительно не появляется горизонтальная полоса прокрутки.Весь контент страницы при этом сохраняется: не обрезается и не удаляется +15
+/*---------------------- portfolio section --------------------------*/
+const portfolioButtons = document.querySelectorAll('.portfolio__button');
+const portfolioButtonsContainer = document.querySelector('.portfolio__buttons');
+const portfolioImages = document.querySelectorAll('.portfolio__image');
 
-На ширине экрана 768рх и меньше реализовано адаптивное меню +22
+portfolioButtonsContainer.addEventListener('click', (event) => { 
+    if (event.target.classList.contains('portfolio__button')) {
+        if (!event.target.classList.contains('button_active')) {
+            portfolioButtons.forEach(button => button.classList.remove('button_active'));
+            event.target.classList.add('button_active');
+            const season = event.target.dataset.season;
+            portfolioImages.forEach((image, i) => image.src = `assets/img/${season}/${i + 1}.jpg`);
+        }
+    }
+});
 
-Итого: 85
-`);
+const preloadImages = () => {
+    ['winter', 'spring', 'summer', 'autumn'].forEach(season => {
+        for (let i = 1; i <= 6; i++) {
+            const img = new Image();
+            img.src = `./assets/img/${season}/${i}.jpg`;
+        }
+    });
+};
+
+preloadImages();
+/*-------------------------------------------------------------------*/
+
+
+
+
+
+// console.log(`Самопроверка
+// `);
