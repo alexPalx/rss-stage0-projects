@@ -8,12 +8,17 @@ font-family: 'Merriweather', serif;
 /*---------------- Html ----------------*/
 :root {
     --gold-color: #bdae82;
+    --hero-background: url('assets/img/bg.jpg');
+    --hero-background-light: url('assets/img/bg-light.jpg');
+    --contacts-background: url('assets/img/contacts.jpg');
+    --contacts-background-light: url('assets/img/contacts-light.jpg');
+    --text-color: #ffffff;
 }
 
 * {
     box-sizing: border-box;
     font: 400 20px/30px 'Inter', sans-serif;
-    color: #ffffff;
+    color: var(--text-color);
 }
 
 ::-webkit-scrollbar {
@@ -32,6 +37,10 @@ body {
     background-color: #000000;
     margin: 0;
     overflow-x: hidden;
+}
+
+body.light-theme {
+    background-color: #ffffff;
 }
 
 svg,
@@ -74,21 +83,40 @@ p {
 .header .container {
     display: flex;
     align-items: center;
-    background: url('assets/img/bg.jpg');
+    background: var(--hero-background);
     background-repeat: no-repeat;
     background-position: center 0;
     margin-bottom: 0;
 }
 
-.header__logo {
+.header .container.light-theme {
+    background: var(--hero-background-light);
+    background-repeat: no-repeat;
+    background-position: center 0;
+    margin-bottom: 0;
+}
+
+.header__logo,
+.header__theme {
     display: block;
     width: 50px;
     height: 50px;
     margin: 20px;
-    fill: #ffffff;
+    fill: var(--text-color);
+}
+
+.header__theme {
+    width: 40px;
+    height: 40px;
 }
 
 .header__logo:hover {
+    cursor: pointer;
+    fill: var(--gold-color);
+}
+
+.header__theme:hover {
+    cursor: pointer;
     fill: var(--gold-color);
 }
 
@@ -109,7 +137,7 @@ p {
 
 .header-nav__item {
     font: 400 20px/50px 'Inter', sans-serif;
-    color: #ffffff;
+    color: var(--text-color);
 }
 
 .header-nav__link {
@@ -120,6 +148,7 @@ p {
 
 .hamburger-button {
     display: none;
+    cursor: pointer;
     position: absolute;
     z-index: 10;
 }
@@ -129,7 +158,7 @@ p {
     height: 3px;
     margin: 9.5px 0;
     display: block;
-    background-color: #ffffff;
+    background-color: var(--text-color);
     transition: 0.5s;
 }
 
@@ -181,9 +210,13 @@ p {
 /*---------------- Hero ----------------*/
 .hero .container {
     height: 820px;
-    background-image: url('assets/img/bg.jpg');
+    background-image: var(--hero-background);
     background-position: center -90px;
     background-repeat: no-repeat;
+}
+
+.hero .container.light-theme {
+    background-image: var(--hero-background-light);
 }
 
 .hero__block {
@@ -245,10 +278,9 @@ p {
     flex-wrap: wrap;
 }
 
-/* 
 .portfolio-buttons__row {
-        
-} */
+        margin: 0 3px;
+}
 
 .portfolio__images {
     display: flex;
@@ -288,8 +320,9 @@ p {
 }
 
 .video-player__button:hover {
-    fill: var(--gold-color);
+    fill: var(--gold-color)
 }
+
 
 
 
@@ -339,8 +372,12 @@ p {
 /*-------------- Contacts --------------*/
 .contacts .container {
     height: 700px;
-    background-image: url('assets/img/contacts.jpg');
+    background-image: var(--contacts-background);
     margin-bottom: 0;
+}
+
+.contacts .container.light-theme {
+    background-image: var(--contacts-background-light);
 }
 
 .contacts__block {
@@ -409,7 +446,7 @@ p {
 }
 
 .social-list__icon{
-    fill: #ffffff;
+    fill: var(--text-color);
     width: 32px;
     height: 32px;
 }
@@ -434,23 +471,51 @@ p {
     height: 55px;
     transition: 0.3s;
     cursor: pointer;
+    box-shadow: 1px 1px 2px var(--gold-color) ;
+}
+
+.button.light-theme {
+    background-color: #ffffff;
+    color: var(--gold-color);
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    color: #ffffff;
+}
+
+.button.light-theme:hover {
+    color: #000000;
 }
 
 .button_active {
     color: #000000;
     background-color: var(--gold-color);
-    border: none;
 }
 
-.button:hover {
-    color: #ffffff;
+.portfolio-buttons__row .button_active {
+    color: #000000;
+    background-color: var(--gold-color);
 }
 
-.button-language {
+.button-language,
+.button-theme {
+    /* cursor: pointer; */
     font: 700 20px/50px 'Inter', sans-serif;
     background: none;
     border: none;
     margin: 0 12px;
+}
+
+.button-language span {
+    font: 700 20px/50px 'Inter', sans-serif;
+    transition: 0.3s;
+}
+
+.button-language span:hover,
+.button-language_active {
+    cursor: pointer;
+    color: var(--gold-color);
 }
 
 .color-gold{
@@ -521,13 +586,17 @@ p {
         background-position: 2% -30px;
     }
 
+    .header .container.light-theme {
+        background-size: 980px;
+        background-position: 2% -30px;
+    }
+
     .header__logo {
         margin-left: 60px;
     }
 
     .button-language {
         margin-left: auto;
-        margin-right: 129px;
     }
 
     .header-nav {
@@ -537,6 +606,10 @@ p {
         background-color: #000000;
         top: 0;
         right: -620px;
+    }
+
+    .header .container.light-theme .header-nav{
+        background-color: #ffffff;
     }
 
     .header-nav.open {
@@ -556,6 +629,20 @@ p {
 
     .header-nav__link {
         font: 400 35px/73px 'Inter', sans-serif;
+    }
+
+    /* когда-нибудь надо будет убрать все эти костыли */
+    /* .header .container.light-theme a {
+        color: #ffffff;
+    }
+    
+    .header .container.light-theme a:hover {
+        color: var(--gold-color);
+    } */
+
+    .button-theme {
+        margin-right: 130px;
+        margin-left: 0;
     }
 
     .hamburger-button {
