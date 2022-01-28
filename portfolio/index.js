@@ -88,7 +88,7 @@ function loadLocalData() {
     if(localStorage.getItem('language')) {
         translate(localStorage.getItem('language'));
     } else {
-        localStorage.setItem('language', 'en');
+        localStorage.setItem('language', language);
     }
 
     if(localStorage.getItem('theme')) {
@@ -105,9 +105,7 @@ window.addEventListener('load', loadLocalData)
 /*----------------------- translate --------------------------*/
 const objectsToTranslate = document.body.querySelectorAll('[data-i18]');
 const translate = (lang) => {
-    objectsToTranslate.forEach(obj => {
-        obj.innerHTML = i18Obj[lang][obj.getAttribute('data-i18')];
-    });
+    objectsToTranslate.forEach(obj => obj.innerHTML = i18Obj[lang][obj.getAttribute('data-i18')]);
     localStorage.setItem('language', lang);
 };
 const changeLangButton = document.querySelector('.button-language');
@@ -153,32 +151,29 @@ const heroBackground = document.querySelector('.hero .container');
 const contactsBackground = document.querySelector('.contacts .container');
 const buttons = document.querySelectorAll('.button');
 
+const sectionTitles = document.querySelectorAll('.section-title');
+const contactsTitle = document.querySelector('.contacts__title');
+const contactsInputFields = document.querySelectorAll('.contacts__item');
+
+
 const changeTheme = () => {
-    if (theme === 0) {
-        document.body.classList.add('light-theme');
-        headerBackground.classList.add('light-theme');
-        heroBackground.classList.add('light-theme');
-        contactsBackground.classList.add('light-theme');
-        document.documentElement.style.setProperty('--text-color', '#000000');
-        buttons.forEach(button => { 
-            button.classList.add('light-theme');
-        });
-        themeButtonSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "assets/svg/icons.svg#dark-theme");
-        theme = 1;
-        localStorage.setItem('theme', theme);
-    } else {
-        document.body.classList.remove('light-theme');
-        headerBackground.classList.remove('light-theme');
-        heroBackground.classList.remove('light-theme');
-        contactsBackground.classList.remove('light-theme');
-        document.documentElement.style.setProperty('--text-color', '#ffffff');
-        buttons.forEach(button => { 
-            button.classList.remove('light-theme');
-        });
-        themeButtonSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "assets/svg/icons.svg#light-theme");
-        theme = 0;
-        localStorage.setItem('theme', theme);
-    }
+    const action = ['add', 'remove'];
+    const textColor = ['#1c1c1c', '#ffffff'];
+    const iconType = ['dark-theme', 'light-theme'];
+
+    sectionTitles.forEach(title => title.classList[action[theme]]('light-theme'));
+    contactsInputFields.forEach(inputField => inputField.classList[action[theme]]('light-theme'));
+    buttons.forEach(button => button.classList[action[theme]]('light-theme'));
+    contactsTitle.classList[action[theme]]('light-theme');
+    document.body.classList[action[theme]]('light-theme');
+    headerBackground.classList[action[theme]]('light-theme');
+    heroBackground.classList[action[theme]]('light-theme');
+    contactsBackground.classList[action[theme]]('light-theme');
+    document.documentElement.style.setProperty('--text-color', textColor[theme]);
+    themeButtonSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `assets/svg/icons.svg#${iconType[theme]}`);
+
+    theme = Number(!theme);
+    localStorage.setItem('theme', theme);
 };
 
 themeButton.addEventListener('click', (event) => changeTheme(event));
