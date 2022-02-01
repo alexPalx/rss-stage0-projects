@@ -93,6 +93,7 @@ function loadLocalData() {
 
     if(localStorage.getItem('theme')) {
         theme = Number(localStorage.getItem('theme'));
+        if (isNaN(theme)) theme = 0;
         changeTheme();
         changeTheme();
     } else {
