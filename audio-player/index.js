@@ -23,14 +23,16 @@ const songCovers = ['assets/img/lemonade.png', 'assets/img/dontstartnow.png'];
 
 
 const selectAudio = (songIndex) => {
+    audio.autoplay = true;
+    playButton.classList.add('paused');
     audio.src = songArray[songIndex];
     songArtist.textContent = songTitleArray[songIndex][0];
     songTitle.textContent = songTitleArray[songIndex][1];
     document.documentElement.style.setProperty('--cover', `url(${songCovers[songIndex]})`);
     time = 0;
     progressBar['value'] = time;
-    isPlay = false;
-    playButton.classList.remove('paused');
+    // isPlay = false;
+    // playButton.classList.remove('paused');
 };
 
 const playAudio = () => {
@@ -64,8 +66,13 @@ const initAudio = () => {
         songDuration.textContent = getTimeString(audio.duration));
     audio.addEventListener('timeupdate', (event) => {
         songCurrentTime.textContent = getTimeString(audio.currentTime);
-        if(isPlay && !isSetProgress) progressBar['value'] = Math.ceil(audio.currentTime / audio.duration * 100);
+        if (isPlay && !isSetProgress)
+            progressBar['value'] = Math.ceil(audio.currentTime / audio.duration * 100) || 0;
     });
+    audio.addEventListener('ended', () => {
+        playNext();
+    });
+
     progressBar.addEventListener('mousedown', () => isSetProgress = true);
     progressBar.addEventListener('mouseup', () => isSetProgress = false);
     progressBar.addEventListener('change', setProgress);
