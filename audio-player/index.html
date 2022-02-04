@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>audio-player</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+    <div class="player">
+        <div class="cover"></div>
+        <div class="controls">
+            <div class="controls__wrapper">
+                <div class="controls__buttons">
+
+                    <button class="button play"></button>
+
+                    <div class="song-info">
+                        <span class="song-title">Beyonce</span> <br>
+                        <span class="song-artist">Don't Hurt Yourself</span>
+                    </div>
+
+                    <div class="rewind-buttons">
+                        <button class="button rewind"></button>
+                        <button class="button rewind forward"></button>
+                    </div>
+
+                </div>
+
+                <input type="range" name="" id="progress-bar">
+                
+            </div>
+        </div>
+    </div>
+    <audio src="" controls></audio>
+    <script src="index.js"></script>
 </body>
+
 </html>
