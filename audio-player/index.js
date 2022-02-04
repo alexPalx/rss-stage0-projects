@@ -26,13 +26,11 @@ const selectAudio = (songIndex) => {
     audio.autoplay = true;
     playButton.classList.add('paused');
     audio.src = songArray[songIndex];
-    songArtist.textContent = songTitleArray[songIndex][0];
-    songTitle.textContent = songTitleArray[songIndex][1];
+    setSongTitleArtist(songIndex);
     document.documentElement.style.setProperty('--cover', `url(${songCovers[songIndex]})`);
     time = 0;
     progressBar['value'] = time;
-    // isPlay = false;
-    // playButton.classList.remove('paused');
+    isPlay = true;
 };
 
 const playAudio = () => {
@@ -79,9 +77,19 @@ const initAudio = () => {
     
     audio.currentTime = 0;
     audio.src = songArray[0];
+    setSongTitleArtist(playNum);
 }
 
-
+const setSongTitleArtist = (index) => {
+    songArtist.textContent = songTitleArray[index][0];
+    songTitle.textContent = songTitleArray[index][1];
+    songArtist.classList.remove('overflow');
+    songTitle.classList.remove('overflow');
+    if (songArtist.textContent.length > 20)
+        songArtist.classList.add('overflow');
+    if (songTitle.textContent.length > 20)
+        songTitle.classList.add('overflow');
+};
 
 const setProgress = () => {
     time = Math.ceil((progressBar['value'] / 100) * audio.duration);
