@@ -5,6 +5,10 @@
     font: 400 20px/30px 'IBM Plex Sans Thai Looped', sans-serif;
 }
 
+:root {
+    --cover: url('assets/img/lemonade.png');
+}
+
 .player {
     display: flex;
     flex-direction: column;
@@ -19,7 +23,7 @@
 .cover {
     height: 350px;
     background-color: #e8d1ff;
-    background-image: url('assets/img/lemonade.png');
+    background-image: var(--cover);
     background-repeat: no-repeat;
     background-position: right 50% bottom 10%;
     background-size: 100%;
@@ -107,6 +111,24 @@
 }
 
 /* progress-bar */
+
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-bar span {
+    font-size: 16px;
+}
+
+.song-current-time {
+    align-self: flex-start;
+}
+
+.song-duration {
+    align-self: flex-end;
+}
+
 #progress-bar {
     display: block;
     height: 40%;
@@ -126,7 +148,7 @@
     height: 20px;
     width: 6px;
     box-shadow: 1px 1px 2px #000000;
-    margin-top: -7px;
+    margin-top: -8px;
 }
 
 /* track */
