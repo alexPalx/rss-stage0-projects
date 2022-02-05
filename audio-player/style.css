@@ -1,0 +1,304 @@
+/*refactor it later...*/
+@font-face {
+    font-family: "Cyberpunk";
+    src: url("assets/fonts/Cyberpunk-Regular.ttf");
+}
+@font-face {
+    font-family: "VerminVibes";
+    src: url("assets/fonts/VerminVibes.otf");
+}
+
+* {
+    font: 400 20px/30px 'VerminVibes', sans-serif;
+}
+
+:root {
+    --cover: url('');
+    --button-color: #ff043c;
+    --color-yellow: #fff404;
+    --button-color-filter-cyan: brightness(0)
+                                saturate(100%)
+                                invert(87%)
+                                sepia(100%)
+                                saturate(2423%)
+                                hue-rotate(99deg)
+                                brightness(101%)
+                                contrast(102%)
+    ;
+    --progress: 0%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: var(--cover);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000000;
+    background-size: 100%;
+    backdrop-filter: blur(15px);
+    height: 100vh;
+}
+
+body {
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+}
+
+.player {
+    width: 600px;
+    height: 300px;
+    overflow: hidden;
+    background: linear-gradient(
+        180deg,
+        var(--color-yellow) 0%,
+        var(--color-yellow) 1%,
+        #000000 1%,
+        #000000 15%,
+        var(--color-yellow) 15%,
+        var(--color-yellow) 69%,
+        #000000 69%,
+        #000000 99%,
+        var(--color-yellow) 99%,
+        var(--color-yellow) 100%
+    );
+    clip-path: polygon(0 15%, 6% 0, 61% 0, 68% 15%, 100% 15%, 100% 93%, 97% 100%, 25% 100%, 22% 93%, 0 93%);
+    transform: rotateY(20deg);
+}
+
+.cover {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-image: var(--cover);
+    background-repeat: no-repeat;
+    background-position: left 5px top 5px;
+    background-size: 100%;
+    box-shadow: 5px 5px 0 #00f7ff;
+
+    
+}
+
+.player-title__text {
+    font: 24px 'Cyberpunk', sans-serif;
+    color: var(--color-yellow);
+    display: block;
+    margin: 6px 0 10px 90px;
+}
+.wrapper {
+    display: flex;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+    height: 100%;
+}
+
+.controls__buttons{
+    margin-top: -6px;
+    display: flex;
+}
+.button {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    border: none;
+    transition: 0.2s;
+    background-color: transparent;
+}
+
+.button:hover {
+    box-shadow: 0 3px 30px rgb(255, 17, 203);
+}
+
+.button:active {
+    transition: 0.01s;
+}
+
+.play {
+    background-image: url('assets/svg/play.png');
+    border-radius: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 25.5% 100%, 0 72.5%);
+    filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
+}
+.play:active {
+    filter: var(--button-color-filter-cyan);
+}
+
+.play__wrapper {
+    width: 0;
+    height: 0;
+    margin-right: 30px;
+    transition: 0.2s;
+    filter: drop-shadow(-4px 3px 3px #c300ff);
+}
+
+.play__wrapper:hover {
+    filter: drop-shadow(-4px 5px 3px #ff00bf);
+}
+
+.play.paused {
+    background-image: url('assets/svg/pause.png');
+}
+
+.rewind {
+    width: 50px;
+    height: 50px;
+    clip-path: polygon(0 0, 100% 0, 100% 94%, 94% 100%, 25% 100%, 0 73%);
+    background-image: url('assets/svg/backward.png');
+    filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
+}
+
+.rewind:active,
+.rewind.forward:active {
+    filter: var(--button-color-filter-cyan);
+}
+
+.rewind__wrapper {
+    width: 0;
+    height: 0;
+    margin-left: 100px;
+    margin-top: 18px;
+    transition: 0.2s;
+    filter: drop-shadow(-4px 3px 3px #c300ff);
+}
+
+.rewind__wrapper:hover {
+    filter: drop-shadow(-4px 5px 3px #ff00bf);
+}
+
+.rewind.forward {
+    background-image: url('assets/svg/forward.png');
+    filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
+}
+
+/* @keyframes scrollTextAnimation {
+    from    {}
+    25%     {transform: translateX(0);}
+    71.87%  {transform: translateX(-100%);}
+    71.88%  {transform: translateX(60%);}
+    to      {transform: translateX(0);}
+} */
+
+.song-info {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    margin: 15px 0 5px 70px;
+    height: 60px;
+    overflow: hidden;
+}
+
+.song-title,
+.song-artist {
+    white-space: pre;
+}
+
+/* .song-title.overflow,
+.song-artist.overflow {
+    display: block;
+    animation: scrollTextAnimation 10s linear infinite;
+} */
+
+.song-title {
+    font-family: 'VerminVibes', sans-serif;
+    font-size: 14px;
+}
+
+/* progress-bar */
+.controls__progress {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin-left: 35px;
+}
+.song-current-time {
+    align-self: flex-start;
+    font-size: 16px;
+}
+
+.song-duration {
+    align-self: flex-end;
+    font-size: 16px;
+}
+
+.footer .container {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.footer__item {
+    display: block;
+    margin: 0 20px;
+    color: #00f7ff;
+    filter: drop-shadow(-1px 1px 1px #ff00bf);
+}
+
+a, img{
+    transition: 0.2s;
+}
+
+.footer__link {
+    color: var(--color-yellow);
+    text-decoration: none;
+    border-bottom: 2px solid var(--color-yellow);
+}
+
+.footer__link:hover {
+    color: var(--button-color);
+    border-bottom: 2px solid transparent;
+}
+
+.footer__logo {
+    width: 150px;
+}
+
+.footer__logo:hover {
+    filter: drop-shadow(-1px 0 0 #c300ff);
+}
+
+#progress-bar {
+    display: block;
+    width: 100%;
+
+    -webkit-appearance: none;
+    background: transparent;
+}
+
+/* thumb */
+#progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #ffffff;
+    height: 20px;
+    width: 0;
+    margin-top: -1px;
+}
+
+/* track */
+#progress-bar::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(
+        90deg,
+        #000000 0%,
+        #000000 var(--progress),
+        transparent var(--progress),
+        transparent 100%
+        );
+    border: 1px solid #000000;
+}
+
+#progress-bar:focus {
+    outline: none;
+}
