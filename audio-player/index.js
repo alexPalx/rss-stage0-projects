@@ -10,15 +10,29 @@ const songCurrentTime = document.querySelector('.song-current-time');
 const songDuration = document.querySelector('.song-duration');
 
 const audio = document.querySelector('audio');
+audio.volume = 0.1;
 
 let isPlay = false;
 let isSetProgress = false;
 let time = 0;
 let playNum = 0;
+let mouseDownCheckInterval;
 
-const songArray = ['assets/audio/beyonce.mp3', 'assets/audio/dontstartnow.mp3'];
-const songTitleArray = [['Beyonce', "Don't Hurt Yourself"], ['Dua Lipa', "Don't Start Now"]];
-const songCovers = ['assets/img/lemonade.png', 'assets/img/dontstartnow.png'];
+const songArray = [
+    'assets/audio/HyperSpoiler.mp3',
+    'assets/audio/CpJohnnySilverhandsTheme.mp3',
+    'assets/audio/CpMainTheme.mp3'
+];
+const songTitleArray = [
+    ['Hyper', "Spoiler"],
+    ['Cyberpunk 2077', "Johnny Silverhand Theme"],
+    ['Cyberpunk 2077', "Main Theme"]
+];
+const songCovers = [
+    'assets/img/HyperSpoiler.jpg',
+    'assets/img/CpJohnnySilverhandsTheme.jpg',
+    'assets/img/CpMainTheme.jpg'
+];
 
 
 
@@ -64,31 +78,45 @@ const initAudio = () => {
         songDuration.textContent = getTimeString(audio.duration));
     audio.addEventListener('timeupdate', (event) => {
         songCurrentTime.textContent = getTimeString(audio.currentTime);
-        if (isPlay && !isSetProgress)
-            progressBar['value'] = Math.ceil(audio.currentTime / audio.duration * 100) || 0;
+        if (isPlay && !isSetProgress) {
+            const value = Math.ceil(audio.currentTime / audio.duration * 100) || 0;
+            progressBar['value'] = value;
+            document.documentElement.style.setProperty('--progress', `${value}%`);
+        }
     });
     audio.addEventListener('ended', () => {
         playNext();
     });
 
-    progressBar.addEventListener('mousedown', () => isSetProgress = true);
-    progressBar.addEventListener('mouseup', () => isSetProgress = false);
+    progressBar.addEventListener('mousedown', () => {
+        isSetProgress = true;
+        mouseDownCheckInterval = setInterval(() => {
+            document.documentElement.style.setProperty('--progress', `${progressBar['value']}%`);
+            songCurrentTime.textContent = getTimeString((progressBar['value']*audio.duration)/100);
+        }, 5);
+    });
+    progressBar.addEventListener('mouseup', () => {
+        clearInterval(mouseDownCheckInterval);
+        document.documentElement.style.setProperty('--progress', `${progressBar['value']}%`);
+        isSetProgress = false;
+    });
     progressBar.addEventListener('change', setProgress);
     
     audio.currentTime = 0;
     audio.src = songArray[0];
     setSongTitleArtist(playNum);
+    document.documentElement.style.setProperty('--cover', `url(${songCovers[playNum]})`);
 }
 
 const setSongTitleArtist = (index) => {
     songArtist.textContent = songTitleArray[index][0];
     songTitle.textContent = songTitleArray[index][1];
-    songArtist.classList.remove('overflow');
-    songTitle.classList.remove('overflow');
-    if (songArtist.textContent.length > 20)
-        songArtist.classList.add('overflow');
-    if (songTitle.textContent.length > 20)
-        songTitle.classList.add('overflow');
+    // songArtist.classList.remove('overflow');
+    // songTitle.classList.remove('overflow');
+    // if (songArtist.textContent.length > 30)
+    //     songArtist.classList.add('overflow');
+    // if (songTitle.textContent.length > 30)
+    //     songTitle.classList.add('overflow');
 };
 
 const setProgress = () => {

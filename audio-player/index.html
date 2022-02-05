@@ -10,34 +10,50 @@
 </head>
 
 <body>
+
     <div class="player">
-        <div class="cover"></div>
-        <div class="controls">
-            <div class="controls__wrapper">
-                <div class="controls__buttons">
-
-                    <button class="button play"></button>
-
-                    <div class="song-info">
-                        <span class="song-title">Song title</span>
-                        <span class="song-artist">Song artist</span>
-                    </div>
-
-                    <div class="rewind-buttons">
-                        <button class="button rewind"></button>
-                        <button class="button rewind forward"></button>
-                    </div>
-
+        <div class="player-title">
+            <span class="player-title__text">CyberPlayer</span>
+        </div>
+        <div class="wrapper">
+            
+            <div class="cover">
+            </div>
+            <div class="controls">
+                
+                <div class="song-info">
+                    <span class="song-title">Song title</span>
+                    <span class="song-artist">Song artist</span>
                 </div>
-                <div class="progress__wrapper">
-                    <span class='song-duration'>00:00</span>
-                    <input type="range" name="progress" value="0" id="progress-bar">
+    
+                <div class="controls__progress">
                     <span class='song-current-time'>00:00</span>
+                    <input type="range" name="progress" value="0" id="progress-bar">
+                    <span class='song-duration'>00:00</span>
+                    
                     <audio src="" preload="metadata"></audio>
                 </div>
-                
+    
+                <div class="controls__buttons">
+    
+                    <div class="play__wrapper">
+                        <button class="button play"></button>
+                    </div>
+    
+                    <div class="rewind__wrapper">
+                        <button class="button rewind"></button>
+                    </div>
+    
+                    <div class="rewind__wrapper">
+                        <button class="button rewind forward"></button>
+                    </div>
+    
+                </div>
+    
             </div>
+            
         </div>
+        
     </div>
     <script src="index.js"></script>
 </body>
