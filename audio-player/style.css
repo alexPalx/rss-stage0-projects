@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500&display=swap');
+/*refactor it later...*/
 @font-face {
     font-family: "Cyberpunk";
     src: url("assets/fonts/Cyberpunk-Regular.ttf");
@@ -7,14 +7,13 @@
     font-family: "VerminVibes";
     src: url("assets/fonts/VerminVibes.otf");
 }
-/* 400/500 'IBM Plex Sans Thai Looped' sans-serif */
 
 * {
     font: 400 20px/30px 'VerminVibes', sans-serif;
 }
 
 :root {
-    --cover: url('assets/img/lemonade.png');
+    --cover: url('');
     --button-color: #ff043c;
     --color-yellow: #fff404;
     --button-color-filter-cyan: brightness(0)
@@ -33,9 +32,9 @@ body {
     padding: 0;
     margin: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #808080;
     background-image: var(--cover);
     background-position: center;
     background-repeat: no-repeat;
@@ -51,13 +50,8 @@ body {
 }
 
 .player {
-    /* display: flex;
-    flex-direction: column; */
     width: 600px;
-    /* height: 250px; */
     height: 300px;
-    /* border-radius: -20px; */
-    /* box-shadow: 0 0 10px #000000; */
     overflow: hidden;
     background: linear-gradient(
         180deg,
@@ -124,16 +118,11 @@ body {
 }
 
 .button:hover {
-    /* transform: translate(0, -3px); */
-    /* box-shadow: 0 3px 1px #303030; */
     box-shadow: 0 3px 30px rgb(255, 17, 203);
 }
 
 .button:active {
     transition: 0.01s;
-    /* background-color: #dbdbdb; */
-    /* transform: translateY(2px) */
-    /* box-shadow: 0 0 1px #303030; */
 }
 
 .play {
@@ -141,7 +130,6 @@ body {
     border-radius: 0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 25.5% 100%, 0 72.5%);
     filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
-    /* background-color: #c300ff; */
 }
 .play:active {
     filter: var(--button-color-filter-cyan);
@@ -228,8 +216,6 @@ body {
 }
 
 /* progress-bar */
-
-
 .controls__progress {
     display: flex;
     flex-direction: column;
@@ -246,20 +232,45 @@ body {
     font-size: 16px;
 }
 
-
-
-/* .song-duration {
-    background-color: rebeccapurple;
+.footer .container {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
 }
 
-.song-current-time {
-    background-color: red;
-} */
+.footer__item {
+    display: block;
+    margin: 0 20px;
+    color: #00f7ff;
+    filter: drop-shadow(-1px 1px 1px #ff00bf);
+}
+
+a, img{
+    transition: 0.2s;
+}
+
+.footer__link {
+    color: var(--color-yellow);
+    text-decoration: none;
+    border-bottom: 2px solid var(--color-yellow);
+}
+
+.footer__link:hover {
+    color: var(--button-color);
+    border-bottom: 2px solid transparent;
+}
+
+.footer__logo {
+    width: 150px;
+}
+
+.footer__logo:hover {
+    filter: drop-shadow(-1px 0 0 #c300ff);
+}
 
 #progress-bar {
     display: block;
     width: 100%;
-    /* margin: auto; */
 
     -webkit-appearance: none;
     background: transparent;
@@ -269,11 +280,8 @@ body {
 #progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     background-color: #ffffff;
-    /* border: 1px solid #000000; */
-    /* border-radius: 2px; */
     height: 20px;
     width: 0;
-    /* box-shadow: 1px 1px 2px #000000; */
     margin-top: -1px;
 }
 
