@@ -2,75 +2,80 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberPlayer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="assets/svg/favicon.ico" type="image/x-icon">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CyberPlayer</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="shortcut icon" href="assets/svg/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
 
-    <div class="player">
-        <div class="player-title">
-            <span class="player-title__text">CyberPlayer</span>
-        </div>
-        <div class="wrapper">
+	<div class="player-wrapper">
 
-            <div class="cover">
-            </div>
-            <div class="controls">
+		<div class="title">
+			<span class="title__text">CyberPlayer</span>
+		</div>
 
-                <div class="song-info">
-                    <span class="song-title">Song title</span>
-                    <span class="song-artist">Song artist</span>
-                </div>
+		<div class="player">
 
-                <div class="controls__progress">
-                    <span class='song-current-time'>00:00</span>
-                    <input type="range" name="progress" value="0" id="progress-bar">
-                    <span class='song-duration'>00:00</span>
+			<div class="cover"></div>
 
-                    <audio src="" preload="metadata"></audio>
-                </div>
+			<div class="controls">
 
-                <div class="controls__buttons">
+				<div class="controls__song-info">
+					<span class="song-artist">Song artist</span>
+					<span class="song-title">Song title</span>
+				</div>
 
-                    <div class="play__wrapper">
-                        <button class="button play"></button>
-                    </div>
+				<div class="controls__progress">
 
-                    <div class="rewind__wrapper">
-                        <button class="button rewind"></button>
-                    </div>
+					<span class='song-current-time'>00:00</span>
+					<input type="range" name="progress" value="0" id="progress-bar">
+					<span class='song-duration'>00:00</span>
 
-                    <div class="rewind__wrapper">
-                        <button class="button rewind forward"></button>
-                    </div>
+					<audio src="assets/audio/HyperSpoiler.mp3" preload="metadata"></audio>
 
-                </div>
+				</div>
 
-            </div>
+				<div class="controls__buttons">
 
-        </div>
+					<div class="play-wrapper">
+						<button class="button play"></button>
+					</div>
 
-    </div>
+					<div class="rewind-wrapper">
+						<button class="button rewind"></button>
+					</div>
 
-    <footer class="footer">
-        <div class="container">
-            <span class="footer__item">2022</span>
-            <span class="footer__item"><a class="footer__link" href="https://github.com/alexPalx">github</a></span>
-            <span class="footer__item">
-                <a href="https://rs.school/js/">
-                    <img class="footer__logo" src="assets/svg/rs-logo.svg" alt="RS School logo">
-                </a>
-            </span>
-        </div>
-    </footer>
+					<div class="rewind-wrapper">
+						<button class="button rewind forward"></button>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<footer class="footer">
+
+		<span class="footer__item">2022</span>
+		<span class="footer__item"><a class="footer__link" href="https://github.com/alexPalx">github</a></span>
+		<span class="footer__item">
+			<a href="https://rs.school/js/">
+				<img class="footer__logo" src="assets/svg/rs-logo.svg" alt="RS School logo">
+			</a>
+		</span>
+
+	</footer>
 
 
-    <script src="index.js"></script>
+	<script src="index.js"></script>
+
 </body>
 
 </html>
