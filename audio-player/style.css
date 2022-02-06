@@ -1,58 +1,120 @@
-/*refactor it later...*/
-@font-face {
+@font-face 
+{
     font-family: "Cyberpunk";
     src: url("assets/fonts/Cyberpunk-Regular.ttf");
 }
-@font-face {
+@font-face 
+{
     font-family: "VerminVibes";
     src: url("assets/fonts/VerminVibes.otf");
 }
 
-* {
+* 
+{
     font: 400 20px/30px 'VerminVibes', sans-serif;
 }
 
-:root {
-    --cover: url('');
-    --button-color: #ff043c;
-    --color-yellow: #fff404;
-    --button-color-filter-cyan: brightness(0)
-                                saturate(100%)
-                                invert(87%)
-                                sepia(100%)
-                                saturate(2423%)
-                                hue-rotate(99deg)
-                                brightness(101%)
-                                contrast(102%)
-    ;
+:root 
+{
     --progress: 0%;
+    --cover: url('assets/img/HyperSpoiler.jpg');
+    --color-crimson: #ff043c;
+    --color-yellow: #fff404;
+    --color-pink: #ff00bf;
+    --color-violet: #c300ff;
+    --color-cyan: #00f7ff;
+    --color-cyan-filter: 
+        brightness(0)
+        saturate(100%)
+        invert(87%)
+        sepia(100%)
+        saturate(2423%)
+        hue-rotate(99deg)
+        brightness(101%)
+        contrast(102%)
+    ;
+    --color-crimson-filter:
+        brightness(0)
+        saturate(100%)
+        invert(13%)
+        sepia(88%)
+        saturate(5666%)
+        hue-rotate(342deg)
+        brightness(100%)
+        contrast(104%)
+    ;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-    display: flex;
+body 
+{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: var(--cover);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #000000;
-    background-size: 100%;
-    backdrop-filter: blur(15px);
-    height: 100vh;
-}
 
-body {
+    display: flex;
     perspective: 1000px;
     perspective-origin: 50% 50%;
+
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    
+    background-image: var(--cover);
+    background-color: #000000;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    backdrop-filter: blur(15px);
 }
 
-.player {
+a,
+img,
+.button,
+.play-wrapper,
+.rewind-wrapper 
+{
+    transition: 0.2s;
+}
+
+
+
+/*--------------- button ----------------*/
+.button 
+{
+    width: 70px;
+    height: 70px;
+    border: none;
+
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.button:hover 
+{
+    box-shadow: 0 3px 30px var(--color-pink);
+}
+
+.button:active 
+{
+    transition: 0.05s;
+}
+
+
+
+/*--------------- player-wrapper ----------------*/
+.player-wrapper 
+{
+    transform: rotateY(20deg);
+
+    overflow: hidden;
+
+    clip-path: polygon(0 15%, 6% 0, 61% 0, 68% 15%, 100% 15%, 100% 93%, 97% 100%, 25% 100%, 22% 93%, 0 93%);
+
     width: 600px;
     height: 300px;
-    overflow: hidden;
+
     background: linear-gradient(
         180deg,
         var(--color-yellow) 0%,
@@ -66,121 +128,282 @@ body {
         var(--color-yellow) 99%,
         var(--color-yellow) 100%
     );
-    clip-path: polygon(0 15%, 6% 0, 61% 0, 68% 15%, 100% 15%, 100% 93%, 97% 100%, 25% 100%, 22% 93%, 0 93%);
-    transform: rotateY(20deg);
 }
 
-.cover {
+.title__text 
+{
+    display: block;
+
+    margin: 6px 0 10px 90px;
+
+    font: 24px 'Cyberpunk', sans-serif;
+    color: var(--color-yellow);
+}
+
+
+
+/*--------------- player ----------------*/
+.player 
+{
+    display: flex;
+}
+
+.cover 
+{
     display: inline-block;
+
     width: 200px;
     height: 200px;
+    box-shadow: 5px 5px 0 var(--color-cyan);
+
     background-image: var(--cover);
     background-repeat: no-repeat;
     background-position: left 5px top 5px;
     background-size: 100%;
-    box-shadow: 5px 5px 0 #00f7ff;
-
-    
 }
 
-.player-title__text {
-    font: 24px 'Cyberpunk', sans-serif;
-    color: var(--color-yellow);
-    display: block;
-    margin: 6px 0 10px 90px;
-}
-.wrapper {
-    display: flex;
-}
-
-.controls {
-    display: flex;
+.controls 
+{
     flex-direction: column;
     align-items: center;
+
+    display: flex;
+
     width: 350px;
     height: 100%;
 }
 
-.controls__buttons{
-    margin-top: -6px;
+
+
+/*--------------- controls__song-info ----------------*/
+.controls__song-info 
+{
+    flex-direction: column;
+
     display: flex;
-}
-.button {
-    flex-shrink: 0;
-    width: 70px;
-    height: 70px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
-    border: none;
-    transition: 0.2s;
-    background-color: transparent;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 60px;
+    margin: 15px 0 5px 70px;
 }
 
-.button:hover {
-    box-shadow: 0 3px 30px rgb(255, 17, 203);
+.song-title 
+{
+    font-size: 14px;
 }
 
-.button:active {
-    transition: 0.01s;
+.song-title,
+.song-artist 
+{
+    white-space: pre;
 }
 
-.play {
-    background-image: url('assets/svg/play.png');
-    border-radius: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 25.5% 100%, 0 72.5%);
-    filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
-}
-.play:active {
-    filter: var(--button-color-filter-cyan);
+
+
+/*--------------- controls__progress ----------------*/
+.controls__progress 
+{
+    flex-direction: column;
+
+    display: flex;
+    
+    width: 300px;
+    margin-left: 35px;
 }
 
-.play__wrapper {
+.song-current-time 
+{
+    align-self: flex-start;
+
+    font-size: 16px;
+}
+
+.song-duration 
+{
+    align-self: flex-end;
+    
+    font-size: 16px;
+}
+
+#progress-bar 
+{
+    display: block;
+    -webkit-appearance: none;
+
+    width: 100%;
+
+    background: transparent;
+}
+
+#progress-bar::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+
+    width: 0;
+}
+
+#progress-bar::-webkit-slider-runnable-track 
+{
+    width: 100%;
+    height: 20px;
+    border: 1px solid #000000;
+
+    background: linear-gradient(
+        90deg,
+        #000000 0%,
+        #000000 var(--progress),
+        transparent var(--progress),
+        transparent 100%
+        );
+}
+
+#progress-bar:focus 
+{
+    outline: none;
+}
+
+
+
+/*--------------- controls__buttons ----------------*/
+.controls__buttons
+{
+    display: flex;
+
+    margin-top: -6px;
+}
+
+.play-wrapper 
+{
     width: 0;
     height: 0;
     margin-right: 30px;
-    transition: 0.2s;
-    filter: drop-shadow(-4px 3px 3px #c300ff);
+
+    filter: drop-shadow(-4px 3px 3px var(--color-violet));
 }
 
-.play__wrapper:hover {
-    filter: drop-shadow(-4px 5px 3px #ff00bf);
+.play-wrapper:hover 
+{
+    filter: drop-shadow(-4px 5px 3px var(--color-pink));
 }
 
-.play.paused {
+.play 
+{
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 100%,
+        25.5% 100%,
+        0 72.5%
+    );
+
+    background-image: url('assets/svg/play.png');
+    filter: var(--color-crimson-filter);
+}
+.play:active 
+{
+    filter: var(--color-cyan-filter);
+}
+
+.play.paused 
+{
     background-image: url('assets/svg/pause.png');
 }
 
-.rewind {
-    width: 50px;
-    height: 50px;
-    clip-path: polygon(0 0, 100% 0, 100% 94%, 94% 100%, 25% 100%, 0 73%);
-    background-image: url('assets/svg/backward.png');
-    filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
-}
-
-.rewind:active,
-.rewind.forward:active {
-    filter: var(--button-color-filter-cyan);
-}
-
-.rewind__wrapper {
+.rewind-wrapper 
+{
     width: 0;
     height: 0;
     margin-left: 100px;
     margin-top: 18px;
-    transition: 0.2s;
-    filter: drop-shadow(-4px 3px 3px #c300ff);
+
+    filter: drop-shadow(-4px 3px 3px var(--color-violet));
 }
 
-.rewind__wrapper:hover {
-    filter: drop-shadow(-4px 5px 3px #ff00bf);
+.rewind-wrapper:hover 
+{
+    filter: drop-shadow(-4px 5px 3px var(--color-pink));
 }
 
-.rewind.forward {
+.rewind 
+{
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 94%,
+        94% 100%,
+        25% 100%,
+        0 73%
+    );
+
+    width: 50px;
+    height: 50px;
+    
+    background-image: url('assets/svg/backward.png');
+    filter: var(--color-crimson-filter);
+}
+
+.rewind.forward 
+{
     background-image: url('assets/svg/forward.png');
-    filter: brightness(0) saturate(100%) invert(13%) sepia(88%) saturate(5666%) hue-rotate(342deg) brightness(100%) contrast(104%);
 }
+
+.rewind:active,
+.rewind.forward:active 
+{
+    filter: var(--color-cyan-filter);
+}
+
+
+
+/*--------------- footer ----------------*/
+.footer 
+{
+    align-items: center;
+
+    display: flex;
+    
+    margin-top: 50px;
+}
+
+.footer__item 
+{
+    display: block;
+
+    margin: 0 20px;
+
+    filter: drop-shadow(-1px 1px 1px var(--color-pink));
+    color: var(--color-cyan);
+}
+
+.footer__link 
+{
+    border-bottom: 2px solid var(--color-yellow);
+
+    color: var(--color-yellow);
+
+    text-decoration: none;
+}
+
+.footer__link:hover 
+{
+    border-bottom-color: transparent;
+
+    color: var(--color-crimson);
+}
+
+.footer__logo 
+{
+    width: 150px;
+}
+
+.footer__logo:hover 
+{
+    filter: drop-shadow(-1px 0 0 var(--color-violet));
+}
+
+
 
 /* @keyframes scrollTextAnimation {
     from    {}
@@ -190,115 +413,9 @@ body {
     to      {transform: translateX(0);}
 } */
 
-.song-info {
-    display: flex;
-    flex-direction: column-reverse;
-    width: 100%;
-    margin: 15px 0 5px 70px;
-    height: 60px;
-    overflow: hidden;
-}
-
-.song-title,
-.song-artist {
-    white-space: pre;
-}
 
 /* .song-title.overflow,
 .song-artist.overflow {
     display: block;
     animation: scrollTextAnimation 10s linear infinite;
 } */
-
-.song-title {
-    font-family: 'VerminVibes', sans-serif;
-    font-size: 14px;
-}
-
-/* progress-bar */
-.controls__progress {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin-left: 35px;
-}
-.song-current-time {
-    align-self: flex-start;
-    font-size: 16px;
-}
-
-.song-duration {
-    align-self: flex-end;
-    font-size: 16px;
-}
-
-.footer .container {
-    display: flex;
-    align-items: center;
-    margin-top: 50px;
-}
-
-.footer__item {
-    display: block;
-    margin: 0 20px;
-    color: #00f7ff;
-    filter: drop-shadow(-1px 1px 1px #ff00bf);
-}
-
-a, img{
-    transition: 0.2s;
-}
-
-.footer__link {
-    color: var(--color-yellow);
-    text-decoration: none;
-    border-bottom: 2px solid var(--color-yellow);
-}
-
-.footer__link:hover {
-    color: var(--button-color);
-    border-bottom: 2px solid transparent;
-}
-
-.footer__logo {
-    width: 150px;
-}
-
-.footer__logo:hover {
-    filter: drop-shadow(-1px 0 0 #c300ff);
-}
-
-#progress-bar {
-    display: block;
-    width: 100%;
-
-    -webkit-appearance: none;
-    background: transparent;
-}
-
-/* thumb */
-#progress-bar::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    background-color: #ffffff;
-    height: 20px;
-    width: 0;
-    margin-top: -1px;
-}
-
-/* track */
-#progress-bar::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(
-        90deg,
-        #000000 0%,
-        #000000 var(--progress),
-        transparent var(--progress),
-        transparent 100%
-        );
-    border: 1px solid #000000;
-}
-
-#progress-bar:focus {
-    outline: none;
-}
