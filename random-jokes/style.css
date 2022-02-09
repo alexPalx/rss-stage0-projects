@@ -1,0 +1,28 @@
+:root {
+    --load-time: 500ms;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+
+    height: 95vh;
+}
+
+.main
+{
+    width: 500px;
+    height: 300px;
+}
+
+.quote
+{
+    transition: var(--load-time);
+}
+
+.quote.hide
+{
+    opacity: 0;
+}
