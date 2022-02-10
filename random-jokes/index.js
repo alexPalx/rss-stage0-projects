@@ -154,3 +154,5 @@ const init = () => {
 
 
 window.addEventListener('load', init);
+
+console.log('Самопроверка:\nВсе требования выполнены.');
