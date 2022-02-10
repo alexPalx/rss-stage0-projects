@@ -4,27 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Quote`k</title>
+    <script src="set-bg.js"></script>
 </head>
 <body>
-
-    <main class="main">
-        <section class="section">
-            <h2 class="header">Your quote</h2>
-            <blockquote class="quote hide">
-            <p class="quote__text">Some quote, Some quote - Some quote Some-quote.</p>
-            <footer>
-                <cite class="quote__author">Some author</cite>
+    <div class="wrapper">
+        <main class="main">
+            <div class="datetime">
+                <span class="datetime__item day">&nbsp;</span>
+                <span class="datetime__item day-week">&nbsp;</span>
+                <span class="datetime__item month">&nbsp;</span>
+                <span class="datetime__item year">&nbsp;</span>
+            </div>
+            <section class="section">
+                <h2 class="header">&nbsp;</h2>
+                <blockquote class="quote hide">
+                    <p class="quote__text">&nbsp;</p>
+                    <footer>
+                        <cite class="quote__author">&nbsp;</cite>
+                    </footer>
+                </blockquote>
+            </section>
+        </main>
+        <div class="footer-wrapper">
+            <div class="buttons">
+                <button class="button button_generate" type="button">&nbsp;</button>
+                <button class="button button_lang" type="button">&nbsp;</button>
+            </div>
+            <footer class="footer">
+                <span class="footer__item"><a class="footer__link" href="https://github.com/alexPalx">github</a></span>
+                <span class="footer__item">2022</span>
+                <span class="footer__item">
+                    <a href="https://rs.school/js/">
+                        <img class="footer__logo" src="assets/img/rs-logo.svg" alt="RS School logo">
+                    </a>
+                </span>
             </footer>
-            </blockquote>
-            <button class="button button_generate" type="button">Generate a new quote</button>
-            <button class="button button_lang" type="button">en</button>
-        </section>
-    </main>
-
-    <footer class="footer"></footer>
-
+        </div>
+        
+    </div>
 
     <script src="index.js"></script>
 </body>
