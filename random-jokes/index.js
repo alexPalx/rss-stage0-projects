@@ -9,7 +9,7 @@ let loadTimeHistory = [];
 let averageLoadTime;
 
 const languages = ['en', 'be'];
-let quoteLang = 0;
+let quoteLang;
 
 const calculateAaverageLoadTime = (loadTime) => {
     loadTimeHistory.push(loadTime);
@@ -56,10 +56,26 @@ const generateText = () => {
 
 const changeLang = () => {
     quoteLang = Number(!quoteLang);
+    saveLocalStorageData();
     buttonChangeLang.textContent = languages[quoteLang];
     generateText();
 };
 
+const loadLocalStorageData = () => {
+    quoteLang = Number(localStorage.getItem('quoteLang')) ?? 0;
+    saveLocalStorageData();
+};
+
+const saveLocalStorageData = () => {
+    localStorage.setItem('quoteLang', quoteLang);
+};
+
+const init = () => {
+    loadLocalStorageData();
+    buttonChangeLang.textContent = languages[quoteLang];
+    getData(setText);
+};
+
 buttonGenerate.addEventListener('click', generateText);
 buttonChangeLang.addEventListener('click', changeLang);
-window.addEventListener('load', () => getData(setText));
+window.addEventListener('load', init);
