@@ -24,6 +24,22 @@ let quoteLang;
 
 
 
+/*-------------------- background --------------------*/
+const backgroundImages = [
+    'assets/img/background/background-0.jpg',
+    'assets/img/background/background-1.jpg',
+    'assets/img/background/background-2.jpg',
+    'assets/img/background/background-3.jpg',
+    'assets/img/background/background-4.jpg'
+];
+
+const setRandomBackground = () => {
+    const randomBgIndex = Math.floor(Math.random() * backgroundImages.length);
+    document.body.style.backgroundImage = `url(${backgroundImages[randomBgIndex]})`;
+};
+
+
+
 /*------------- to smooth server response time ---------------*/
 const expectedResponseTime = 300;
 let loadTimeHistory = [];
@@ -143,6 +159,7 @@ const saveLocalStorageData = () => {
 
 /*-------------------- initialization --------------------*/
 const init = () => {
+    setRandomBackground();
     buttonGenerate.addEventListener('click', generateText);
     buttonChangeLang.addEventListener('click', changeLang);
     loadLocalStorageData();
