@@ -1,5 +1,4 @@
 /*-------------------- fonts --------------------*/
-@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Poiret+One&display=swap');
 /* 400 'Caveat' 'Poiret One' */
 .quote,
 .header,
@@ -25,11 +24,13 @@
 {
     --load-time: 300ms;
 
-    --background: url('assets/img/background/background-0.jpg');
-
     --pen-black: #1c1c1c;
     --pen-blue: #16264c;
     --pen-red: #ac3235;
+}
+
+@keyframes opacityTo1 {
+    to { opacity: 1; }
 }
 
 body 
@@ -42,8 +43,12 @@ body
     margin: 0;
     height: 100vh;
 
-    background-color: #ebe8e3;
-    background-image: var(--background);
+    opacity: 0;
+
+    animation: opacityTo1 1s forwards;
+
+    background-color: #fcf5eb;
+    
     background-size: 1000px;
     backdrop-filter: blur(5px);
 }
