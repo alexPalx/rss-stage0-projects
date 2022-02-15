@@ -5,23 +5,31 @@ const cellsCount = 168;
 let cells = [];
 
 // figures
-const figures = [
-/* r */[[0, 1, 12, 24], [0, 1, 2, 14], [1, 13, 24, 25], [0, 12, 13, 14]],
-/* t */[[0, 12, 13, 24], [0, 1, 2, 13], [1, 12, 13, 25], [1, 12, 13, 14]],
-/* s */[[0, 12, 13, 25], [1, 2, 12, 13]],
-/* z */[[1, 12, 13, 24], [0, 1, 13, 14]],
-/* o */[[0, 1, 12, 13]]
-// it doesn't works correctly
-/* - */// [[0, 1, 2, 3], [0, 12, 24, 36], [0, 1, 2, 3], [0, 12, 24, 36]] 
+const figureForms = [
+    [[0, 1, 12, 24], [2, 14, 1, 0], [25, 24, 13, 1], [12, 0, 13, 14]],
+    [[0, 1, 13, 25], [2, 14, 13, 12], [25, 24, 12, 0], [12, 0, 1, 2]],
+    [[0, 12, 13, 24], [2, 1, 13, 0], [25, 13, 12, 1], [12, 13, 1, 14]],
+    [[0, 1, 12, 13], [1, 13, 0, 12], [13, 12, 1, 0], [12, 0, 13, 1]],
+    [[1, 2, 12, 13], [13, 25, 0, 12], [13, 12, 2, 1], [12, 0, 25, 13]],
+    [[0, 1, 13, 14], [1, 13, 12, 24], [14, 13, 1, 0], [24, 12, 13, 1]],
 ];
-let fig = { i: 0, r: 0 };       // current figure index, rotation
+const figureTypes = ['cross', 'circle', 'triangle', 'square'];
+let activeFigure = [
+    [0, 0],         // offset, type
+    [0, 0],
+    [0, 0],
+    [0, 0]
+];
+let activeFigureForm = 0;
+let activeFigureRotation = 0;
 const pivotStartPosition = 4;   // figure pivot position
 let pivot = pivotStartPosition;                  
 
 
-// game update
+// game
 let gameUpdateInterval = 500;
 let lastPosition = 0;
+let difficulty = 1;
 
 // controls
 let keyPressed = false;
@@ -90,24 +98,32 @@ const clearGrid = () => {
 
 
 /*-------------------- figure --------------------*/
-const create = (figure, type = 'active') => {
-    figure.forEach(element => {
-        cells[pivot + element].classList.add(type);
+const create = () => {
+    activeFigureForm = random(figureForms.length);
+    activeFigureRotation = random(4);
+    activeFigure.forEach((cell, i) => {
+        cell[0] = figureForms[activeFigureForm][activeFigureRotation][i];
+        cell[1] = figureTypes[random(difficulty)];
     });
+    draw();
 };
 
 const hasСollision = (offset = 0, collisionObjectType = 'static') => {
-    return figures[fig.i][fig.r].some(figureCellOffset =>
-        cells[pivot + figureCellOffset + offset].classList.contains(collisionObjectType));
+    return activeFigure.some(figureCell =>
+        cells[pivot + figureCell[0] + offset].classList.contains(collisionObjectType));
 };
 
-const draw = () => {
-    create(figures[fig.i][fig.r]);
+const draw = (newClass) => {
+    activeFigure.forEach(cell => {
+        cells[pivot + cell[0]].classList.add(cell[1]);
+        if (newClass)
+            cells[pivot + cell[0]].classList.add(newClass);
+    });
 };
 
 const erase = () => {
-    figures[fig.i][fig.r].forEach(offset => {
-        cells[pivot + offset].classList.remove('active');
+    activeFigure.forEach(offset => {
+        cells[pivot + offset[0]].classList.remove('active', ...figureTypes);
     });
 };
 
@@ -120,9 +136,13 @@ const move = (direction) => {
 
 const rotate = () => {
     erase();
-    fig.r += 1;
-    if (fig.r > figures[fig.i].length - 1)
-        fig.r = 0;
+    activeFigureRotation += 1;
+    if (activeFigureRotation > 3)
+        activeFigureRotation = 0;
+    
+    activeFigure.forEach((cell, i) =>
+        cell[0] = figureForms[activeFigureForm][activeFigureRotation][i]);
+    
     draw();
     while (hasСollision()) {
         erase();
@@ -133,13 +153,11 @@ const rotate = () => {
     }
 };
 
-const fix = (figure = figures[fig.i][fig.r]) => {
+const fix = () => {
     erase();
-    create(figure, 'static');
+    draw('static');
     pivot = pivotStartPosition;
-    fig.i = random(figures.length);
-    fig.r = random(figures[fig.i].length);
-    draw();
+    create();
 };
 
 
@@ -147,10 +165,10 @@ const fix = (figure = figures[fig.i][fig.r]) => {
 /*-------------------- control --------------------*/
 const keyDownHandler = (event) => {
     const moveDirection = {
-        // 'w': -12,    // the player is not allowed to move up (logically)
-        // 'ц': -12,
-        // 's': 12,     // down also (temporarily)
-        // 'ы': 12,
+        'w': -12,    // the player is not allowed to move up (logically)
+        'ц': -12,
+        's': 12,     // down also (temporarily)
+        'ы': 12,
         'a': -1,
         'ф': -1,
         'd': 1,
@@ -179,7 +197,8 @@ const keyUpHandler = () => {
 
 /*------------------------------------------------*/
 createGrid();
-create(figures[fig.i][fig.r]);
+create();
+
 
 
 

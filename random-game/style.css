@@ -37,5 +37,26 @@
 
 .grid .active
 {
-    background-color: #b27fe6;
+    background-color: #f6c1ff;
+    border-color: #7a3f81;
+}
+
+.grid .cross
+{
+    background-color: skyblue;
+}
+
+.grid .circle
+{
+    background-color: yellowgreen;
+}
+
+.grid .triangle
+{
+    background-color: violet;
+}
+
+.grid .square
+{
+    background-color: orange;
 }
