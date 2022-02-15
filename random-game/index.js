@@ -14,8 +14,10 @@ const figures = [
 // it doesn't works correctly
 /* - */// [[0, 1, 2, 3], [0, 12, 24, 36], [0, 1, 2, 3], [0, 12, 24, 36]] 
 ];
-let fig = { i: 0, r: 0 };   // current figure index, rotation
-let pivot = 4;              // current figure pivot position
+let fig = { i: 0, r: 0 };       // current figure index, rotation
+const pivotStartPosition = 4;   // figure pivot position
+let pivot = pivotStartPosition;                  
+
 
 // game update
 let gameUpdateInterval = 500;
@@ -34,25 +36,24 @@ const random = (max) => Math.floor(Math.random() * max);
 /*-------------------- game --------------------*/
 const update = () => {
     move(12);
-    if (lastPosition === pivot && !keyPressed)
-        fix();
-    else
+    if (lastPosition === pivot && !keyPressed) {
+        if (pivot < 36) restart();
+        else fix();
+    } else {
         lastPosition = pivot;
+    }
 };
 setInterval(update, gameUpdateInterval);
 
-
+const restart = () => {
+    clearGrid();
+    lastPosition = 0;
+    pivot = pivotStartPosition;
+    draw();
+};
 
 /*-------------------- grid --------------------*/
-const createGrid = () => {
-    // grid
-    for (let i = 0; i < cellsCount; ++i) {
-        const divElem = document.createElement('div');
-        divElem.textContent = i;
-        cells.push(divElem);
-        grid.appendChild(divElem);
-    }
-    // border
+const createBorder = () => {
     for (let i = 0; i < cellsCount; ++i) {
         if (i === 0 ||
             i === 11 ||
@@ -61,7 +62,29 @@ const createGrid = () => {
             ((i + 1) % 12) === 0
         )
             cells[i].classList.add('static');
+        if (i > 0 && i < 11 ||
+            i > 12 && i < 23 ||
+            i > 24 && i < 35
+            ) 
+            cells[i].classList.add('border_top');
     }
+
+};
+
+const createGrid = () => {
+    for (let i = 0; i < cellsCount; ++i) {
+        const divElem = document.createElement('div');
+        divElem.textContent = i;
+        cells.push(divElem);
+        grid.appendChild(divElem);
+    }
+    createBorder();
+};
+
+const clearGrid = () => {
+    cells.forEach((_, i) =>
+        cells[i].classList.remove(...cells[i].classList));
+    createBorder();
 };
 
 
@@ -113,7 +136,7 @@ const rotate = () => {
 const fix = (figure = figures[fig.i][fig.r]) => {
     erase();
     create(figure, 'static');
-    pivot = 4;
+    pivot = pivotStartPosition;
     fig.i = random(figures.length);
     fig.r = random(figures[fig.i].length);
     draw();
@@ -123,24 +146,29 @@ const fix = (figure = figures[fig.i][fig.r]) => {
 
 /*-------------------- control --------------------*/
 const keyDownHandler = (event) => {
-    keyPressed = true;
     const moveDirection = {
-        // 'w': -12,  // the player is not allowed to move up (logically)
+        // 'w': -12,    // the player is not allowed to move up (logically)
         // 'ц': -12,
-        's': 12,
-        'ы': 12,
+        // 's': 12,     // down also (temporarily)
+        // 'ы': 12,
         'a': -1,
         'ф': -1,
         'd': 1,
         'в': 1
     };
     
+    if (event.key === '1')
+        restart();
     if (event.key === 'Enter')
         fix();
-    if (event.key === ' ')
+    if (event.key === ' ') {
+        keyPressed = true;
         rotate();
-    if (Object.keys(moveDirection).includes(event.key))
+    }
+    if (Object.keys(moveDirection).includes(event.key)) {
+        keyPressed = true;
         move(moveDirection[event.key]);
+    }
 };
 
 const keyUpHandler = () => {
