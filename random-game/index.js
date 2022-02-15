@@ -29,7 +29,7 @@ let pivot = pivotStartPosition;
 // game
 let gameUpdateInterval = 500;
 let lastPosition = 0;
-let difficulty = 1;
+let difficulty = 2;
 
 // controls
 let keyPressed = false;
@@ -60,6 +60,8 @@ const restart = () => {
     draw();
 };
 
+
+
 /*-------------------- grid --------------------*/
 const createBorder = () => {
     for (let i = 0; i < cellsCount; ++i) {
@@ -76,7 +78,6 @@ const createBorder = () => {
             ) 
             cells[i].classList.add('border_top');
     }
-
 };
 
 const createGrid = () => {
@@ -93,6 +94,45 @@ const clearGrid = () => {
     cells.forEach((_, i) =>
         cells[i].classList.remove(...cells[i].classList));
     createBorder();
+};
+
+///////////////////////////// REFACTOR ME //////////////////////////////
+const checkCells = () => {
+    let cellsInLine;
+    const clean = (i, direction) => {
+        cellsInLine = (new Array(3))
+            .fill()
+            .map((_, offset) =>
+                [...cells[i + offset * direction].classList].filter(_class =>
+                    figureTypes.includes(_class)))
+            .flat(Infinity);
+        
+        if (cellsInLine.length > 2 &&
+            cellsInLine.every(elem => elem === cellsInLine[0])
+        ){
+            [0,1,2].forEach(offset =>
+                cells[i + offset * direction].classList.remove(cellsInLine[0], 'static'));
+        }
+    };
+    // →
+    for (let i = 36; i < 156; ++i){
+        if (!(i % 12 < 9)) continue;
+        clean(i, 1);  
+    }
+    // ↓
+    for (let i = 36; i < 132; ++i){
+        clean(i, 12);
+    }
+    // ↘
+    for (let i = 36; i < 132; ++i){
+        if (!(i % 12 < 9)) continue;
+        clean(i, 13);  
+    }
+    // ↙
+    for (let i = 39; i < 132; ++i){
+        if (!(i % 12 > 9)) continue;
+        clean(i, 11);
+    }
 };
 
 
@@ -115,15 +155,21 @@ const hasСollision = (offset = 0, collisionObjectType = 'static') => {
 
 const draw = (newClass) => {
     activeFigure.forEach(cell => {
-        cells[pivot + cell[0]].classList.add(cell[1]);
+        cells[pivot + cell[0]].classList.add('active', cell[1]);
         if (newClass)
+        {
+            cells[pivot + cell[0]].classList.remove('active');
             cells[pivot + cell[0]].classList.add(newClass);
+        } 
     });
 };
 
 const erase = () => {
     activeFigure.forEach(offset => {
-        cells[pivot + offset[0]].classList.remove('active', ...figureTypes);
+        if ([...cells[pivot + offset[0]].classList].includes('active') &&
+            ![...cells[pivot + offset[0]].classList].includes('static')
+        )
+            cells[pivot + offset[0]].classList.remove('active', ...figureTypes);
     });
 };
 
@@ -144,6 +190,8 @@ const rotate = () => {
         cell[0] = figureForms[activeFigureForm][activeFigureRotation][i]);
     
     draw();
+    // bug
+    // need not clear the cell with collision
     while (hasСollision()) {
         erase();
         pivot -= 11;
@@ -156,6 +204,7 @@ const rotate = () => {
 const fix = () => {
     erase();
     draw('static');
+    checkCells();
     pivot = pivotStartPosition;
     create();
 };
