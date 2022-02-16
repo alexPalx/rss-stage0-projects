@@ -13,17 +13,17 @@ const figureForms = [
     [[1, 2, 12, 13], [13, 25, 0, 12], [13, 12, 2, 1], [12, 0, 25, 13]],
     [[0, 1, 13, 14], [1, 13, 12, 24], [14, 13, 1, 0], [24, 12, 13, 1]],
 ];
-const figureTypes = ['cross', 'circle', 'triangle', 'square'];
+const figureTypes = ['circle', 'cross', 'triangle', 'square'];
 let activeFigure = [
     [0, 0],         // offset, type
-    [0, 0],
-    [0, 0],
-    [0, 0]
+    [1, 1],
+    [12, 2],
+    [13, 3]
 ];
 let activeFigureForm = 0;
 let activeFigureRotation = 0;
 const pivotStartPosition = 4;   // figure pivot position
-let pivot = pivotStartPosition;                  
+let pivotPosition = pivotStartPosition;                  
 
 
 // game
@@ -44,19 +44,18 @@ const random = (max) => Math.floor(Math.random() * max);
 /*-------------------- game --------------------*/
 const update = () => {
     move(12);
-    if (lastPosition === pivot && !keyPressed) {
-        if (pivot < 36) restart();
+    if (lastPosition === pivotPosition && !keyPressed) {
+        if (pivotPosition < 36) restart();
         else fix();
     } else {
-        lastPosition = pivot;
+        lastPosition = pivotPosition;
     }
 };
-setInterval(update, gameUpdateInterval);
 
 const restart = () => {
     clearGrid();
     lastPosition = 0;
-    pivot = pivotStartPosition;
+    pivotPosition = pivotStartPosition;
     draw();
 };
 
@@ -71,7 +70,8 @@ const createBorder = () => {
             (i % 12) === 0 ||
             ((i + 1) % 12) === 0
         )
-            cells[i].classList.add('static');
+            cells[i].classList.add('static', 'border');
+        
         if (i > 0 && i < 11 ||
             i > 12 && i < 23 ||
             i > 24 && i < 35
@@ -99,7 +99,7 @@ const clearGrid = () => {
 ///////////////////////////// REFACTOR ME //////////////////////////////
 const checkCells = () => {
     let cellsInLine;
-    const clean = (i, direction) => {
+    const clear = (i, direction) => {
         cellsInLine = (new Array(3))
             .fill()
             .map((_, offset) =>
@@ -114,24 +114,21 @@ const checkCells = () => {
                 cells[i + offset * direction].classList.remove(cellsInLine[0], 'static'));
         }
     };
-    // →
-    for (let i = 36; i < 156; ++i){
-        if (!(i % 12 < 9)) continue;
-        clean(i, 1);  
-    }
-    // ↓
-    for (let i = 36; i < 132; ++i){
-        clean(i, 12);
-    }
-    // ↘
-    for (let i = 36; i < 132; ++i){
-        if (!(i % 12 < 9)) continue;
-        clean(i, 13);  
-    }
-    // ↙
-    for (let i = 39; i < 132; ++i){
-        if (!(i % 12 > 9)) continue;
-        clean(i, 11);
+    
+    // checks 3 in a row
+    for (let i = 0; i < cellsCount; ++i){
+        // →
+        if (i > 36 && i < 153 && i % 12 > 0 && i % 12 < 9)
+            clear(i, 1); 
+        // ↓
+        if (i > 36 && i < 131 && i % 12 > 0 && i % 12 < 11)
+            clear(i, 12);
+        // ↘
+        if (i > 36 && i < 129 && i % 12 > 0 && i % 12 < 11)
+            clear(i, 13);  
+        // ↙
+        if (i > 38 && i < 131 && i % 12 > 2 && i % 12 < 11)
+            clear(i, 11);
     }
 };
 
@@ -150,33 +147,33 @@ const create = () => {
 
 const hasСollision = (offset = 0, collisionObjectType = 'static') => {
     return activeFigure.some(figureCell =>
-        cells[pivot + figureCell[0] + offset].classList.contains(collisionObjectType));
+        cells[pivotPosition + figureCell[0] + offset].classList.contains(collisionObjectType));
 };
 
 const draw = (newClass) => {
     activeFigure.forEach(cell => {
-        cells[pivot + cell[0]].classList.add('active', cell[1]);
-        if (newClass)
-        {
-            cells[pivot + cell[0]].classList.remove('active');
-            cells[pivot + cell[0]].classList.add(newClass);
+        // redraw active shape
+        cells[pivotPosition + cell[0]].classList.add('active', cell[1]);
+
+        // fix
+        if (newClass){
+            cells[pivotPosition + cell[0]].classList.remove('active');
+            cells[pivotPosition + cell[0]].classList.add(newClass);
         } 
     });
 };
 
 const erase = () => {
     activeFigure.forEach(offset => {
-        if ([...cells[pivot + offset[0]].classList].includes('active') &&
-            ![...cells[pivot + offset[0]].classList].includes('static')
-        )
-            cells[pivot + offset[0]].classList.remove('active', ...figureTypes);
+        if (![...cells[pivotPosition + offset[0]].classList].includes('static'))
+            cells[pivotPosition + offset[0]].classList.remove('active', ...figureTypes);
     });
 };
 
 const move = (direction) => {
     erase();
     if (!hasСollision(direction))
-        pivot += direction;
+        pivotPosition += direction;
     draw();
 };
 
@@ -186,26 +183,29 @@ const rotate = () => {
     if (activeFigureRotation > 3)
         activeFigureRotation = 0;
     
+    // rotate cells in active figure
     activeFigure.forEach((cell, i) =>
         cell[0] = figureForms[activeFigureForm][activeFigureRotation][i]);
     
-    draw();
-    // bug
-    // need not clear the cell with collision
-    while (hasСollision()) {
-        erase();
-        pivot -= 11;
-        if (hasСollision())
-            pivot -= 2;
-        draw();
+    // move pivot while there are collisions
+    if (hasСollision()) {
+        while (hasСollision()) {
+            erase();
+            pivotPosition -= 11;
+            if (hasСollision())
+                pivotPosition -= 2;
+            draw();
+        }
     }
+    else
+        draw();
 };
 
 const fix = () => {
     erase();
     draw('static');
     checkCells();
-    pivot = pivotStartPosition;
+    pivotPosition = pivotStartPosition;
     create();
 };
 
@@ -247,7 +247,7 @@ const keyUpHandler = () => {
 /*------------------------------------------------*/
 createGrid();
 create();
-
+setInterval(update, gameUpdateInterval);
 
 
 
