@@ -27,6 +27,7 @@ let pivotPosition = pivotStartPosition;
 
 
 // game
+const score = document.querySelector('.score');
 let gameUpdateInterval = 500;
 let lastPosition = 0;
 let difficulty = 2;
@@ -53,10 +54,15 @@ const update = () => {
 };
 
 const restart = () => {
+    score.textContent = 0;
     clearGrid();
     lastPosition = 0;
     pivotPosition = pivotStartPosition;
     draw();
+};
+
+const addScore = (value) => {
+    score.textContent = Number(score.textContent) + value;
 };
 
 
@@ -109,12 +115,16 @@ const checkCells = () => {
         
         if (cellsInLine.length > 2 &&
             cellsInLine.every(elem => elem === cellsInLine[0])
-        ){
-            [0,1,2].forEach(offset =>
-                cells[i + offset * direction].classList.remove(cellsInLine[0], 'static'));
+        ) {
+            [0, 1, 2].forEach(offset => {
+                cells[i + offset * direction].classList.remove(cellsInLine[0], 'static');
+            });
+            // circle +30 | cross +45 | triangle +60 | square +75
+            const addValue = (figureTypes.findIndex(item => item === cellsInLine[0]) + 1) * 15 + 15;
+            addScore(addValue);
         }
     };
-    
+
     // checks 3 in a row
     for (let i = 0; i < cellsCount; ++i){
         // →

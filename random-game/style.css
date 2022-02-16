@@ -4,6 +4,26 @@
     font-family: sans-serif;
 }
 
+.wrapper
+{
+    width: 800px;
+}
+
+.game-stats
+{
+    justify-content: center;
+
+    display: flex;
+
+    margin: 50px 0;
+}
+
+.score-text,
+.score
+{
+    font: 500 30px sans-serif;
+}
+
 .grid
 {
     flex-wrap: wrap;
@@ -11,7 +31,7 @@
     display: flex;
 
     width: 600px;
-    margin: 200px 0 0 300px;
+    margin: 0 auto;
 }
 
 .grid div
@@ -32,31 +52,31 @@
 
 .grid .border_top
 {
-    background-color: #ffdcdc;
-}
-
-.grid .active
-{
-    background-color: #f6c1ff;
-    border-color: #7a3f81;
+    background-color: #ffe9e1;
 }
 
 .grid .cross
 {
-    background-color: skyblue;
+    background-color: #94e1ff;
 }
 
 .grid .circle
 {
-    background-color: yellowgreen;
+    background-color: #afe963;
 }
 
 .grid .triangle
 {
-    background-color: violet;
+    background-color: #cb8bff;
 }
 
 .grid .square
 {
-    background-color: orange;
+    background-color: #e9a463;
+}
+
+.grid .border
+{
+    background-color: transparent;
+    border: none;
 }
