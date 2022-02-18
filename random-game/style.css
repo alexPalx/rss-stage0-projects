@@ -1,13 +1,16 @@
 * 
 { 
     font-family: sans-serif;
+    font-size: 20px;
+    color: var(--color-gray-dark);
 }
 
 :root
 {
     --color-gray: #9b9b9b;
-    --color-gray-dark: #747474;
+    --color-gray-dark: #666666;
     --color-gray-light: #efefef;
+    --color-black: #1c1c1c;
 
     --color-circle: #c6db8f;
     --color-cross: #9dced5;
@@ -17,12 +20,14 @@
 
 .wrapper
 {
+    display: flex;
     width: 800px;
 }
 
 .game-stats
 {
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
 
     display: flex;
 
@@ -33,7 +38,8 @@
 .score
 {
     font: 500 30px sans-serif;
-    color: var(--color-gray-dark)
+    color: var(--color-gray-dark);
+    text-shadow: -1px 1px 2px #1c1c1c52;
 }
 
 .grid
@@ -42,15 +48,43 @@
 
     display: flex;
 
+    position: relative;
+    
     width: 600px;
     margin: 0 auto;
+}
+
+.grid::after
+{
+    position: absolute;
+    text-align: center;
+    line-height: 300px;
+    font-size: 50px;
+    color: var(--color-gray-dark);
+    text-shadow: -3px 3px 4px #1c1c1c52;
+    top: 25%;
+    left: 25%;
+    width: 300px;
+    height: 300px;
+    z-index: 10;
+    content: 'Game over';
+    opacity: 0;
+}
+
+@keyframes opacityTo1 
+{
+    to {opacity: 1;}
+}
+
+.grid.game-over::after
+{
+    animation: opacityTo1 0.5s linear forwards;
 }
 
 .grid div
 {
     width: 50px;
     height: 50px;
-    /* border: 1px solid #777777; */
 
     background-color: var(--color-gray-light);
     

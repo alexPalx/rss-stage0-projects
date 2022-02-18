@@ -29,12 +29,15 @@ let pivotPosition = pivotStartPosition;
 
 // game
 const score = document.querySelector('.score');
+const buttonStartGame = document.querySelector('.button_start-game');
 let gameUpdateRate = 500;
+let gameUpdateInterval;
 let lastPosition = 0;
 let difficulty = 2;
 
 // controls
 let keyPressed = false;
+let isControlAllowed = false;
 
 
 
@@ -48,14 +51,28 @@ const update = () => {
     move(12);
     checkCellsWithoutPivotPoint();
     if (lastPosition === pivotPosition && !keyPressed) {
-        if (pivotPosition < 36) restart();
+        if (pivotPosition < 36) gameOver();
         else fix();
     } else {
         lastPosition = pivotPosition;
     }
 };
 
+const startGame = () => {
+    restart();
+    isControlAllowed = true;
+    gameUpdateInterval = setInterval(update, gameUpdateRate);
+    grid.classList.remove('game-over');
+};
+
+const gameOver = () => {
+    isControlAllowed = false;
+    clearInterval(gameUpdateInterval);
+    grid.classList.add('game-over');
+};
+
 const restart = () => {
+    clearInterval(gameUpdateInterval);
     score.textContent = 0;
     clearGrid();
     lastPosition = 0;
@@ -282,6 +299,8 @@ const fix = () => {
 
 /*-------------------- control --------------------*/
 const keyDownHandler = (event) => {
+    if (!isControlAllowed) return;
+
     const moveDirection = {
         'w': -12,    // the player is not allowed to move up (logically)
         'ц': -12,
@@ -308,6 +327,8 @@ const keyDownHandler = (event) => {
 };
 
 const keyUpHandler = () => {
+    if (!isControlAllowed) return;
+
     keyPressed = false;
 };
 
@@ -316,9 +337,9 @@ const keyUpHandler = () => {
 /*------------------------------------------------*/
 createGrid();
 create();
-setInterval(update, gameUpdateRate);
 
 
 
 window.addEventListener('keydown', keyDownHandler);
 window.addEventListener('keyup', keyUpHandler);
+buttonStartGame.addEventListener('click', startGame);
