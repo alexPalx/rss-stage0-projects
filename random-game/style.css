@@ -1,7 +1,18 @@
 * 
 { 
-    box-sizing: border-box; 
     font-family: sans-serif;
+}
+
+:root
+{
+    --color-gray: #9b9b9b;
+    --color-gray-dark: #747474;
+    --color-gray-light: #efefef;
+
+    --color-circle: #c6db8f;
+    --color-cross: #9dced5;
+    --color-triangle: #bda0cf;
+    --color-square: #fdcb8e;
 }
 
 .wrapper
@@ -22,6 +33,7 @@
 .score
 {
     font: 500 30px sans-serif;
+    color: var(--color-gray-dark)
 }
 
 .grid
@@ -38,9 +50,9 @@
 {
     width: 50px;
     height: 50px;
-    border: 1px solid #777777;
+    /* border: 1px solid #777777; */
 
-    background-color: #ededed;
+    background-color: var(--color-gray-light);
     
     font-size: 10px;
 }
@@ -52,31 +64,63 @@
 
 .grid .border_top
 {
-    background-color: #ffe9e1;
+    border-bottom: 1px solid var(--color-gray);
 }
 
 .grid .cross
 {
-    background-color: #94e1ff;
+    background-image: url('assets/img/cross.svg');
+    background-color: var(--color-cross);
 }
 
 .grid .circle
 {
-    background-color: #afe963;
+    background-image: url('assets/img/circle.svg');
+    background-color: var(--color-circle);
 }
 
 .grid .triangle
 {
-    background-color: #cb8bff;
+    background-image: url('assets/img/triangle.svg');
+    background-color: var(--color-triangle);
 }
 
 .grid .square
 {
-    background-color: #e9a463;
+    background-image: url('assets/img/square.svg');
+    background-color: var(--color-square);
 }
 
 .grid .border
 {
-    background-color: transparent;
+    background: none;
     border: none;
+}
+
+@keyframes scoreAnimation
+{
+    0% {
+        box-shadow: 0 0 2px var(--color-gray);
+    }
+    25% {
+        box-shadow: 0 0 0 var(--color-gray);
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.grid .floating-score
+{
+    color: var(--color-gray);
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    animation: scoreAnimation 1s linear forwards;
 }

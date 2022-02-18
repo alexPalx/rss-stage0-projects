@@ -11,10 +11,10 @@ const figureForms = [
     [[0, 12, 13, 24], [2, 1, 13, 0], [25, 13, 12, 1], [12, 13, 1, 14]],
     [[0, 1, 12, 13], [1, 13, 0, 12], [13, 12, 1, 0], [12, 0, 13, 1]],
     [[1, 2, 12, 13], [13, 25, 0, 12], [13, 12, 2, 1], [12, 0, 25, 13]],
-    [[0, 1, 13, 14], [1, 13, 12, 24], [14, 13, 1, 0], [24, 12, 13, 1]],
+    [[0, 1, 13, 14], [1, 13, 12, 24], [14, 13, 1, 0], [24, 12, 13, 1]]
 ];
 const figureTypes = ['circle', 'cross', 'triangle', 'square'];
-const figureScore = [5, 10, 25, 100];
+const figureScore = [5, 5, 25, 125];
 let activeFigure = [
     [0, 0],         // offset, type
     [1, 1],
@@ -29,7 +29,7 @@ let pivotPosition = pivotStartPosition;
 
 // game
 const score = document.querySelector('.score');
-let gameUpdateInterval = 500;
+let gameUpdateRate = 500;
 let lastPosition = 0;
 let difficulty = 2;
 
@@ -63,7 +63,12 @@ const restart = () => {
     draw();
 };
 
-const addScore = (value) => {
+const addScore = (index, value) => {
+    const floatingScore = document.createElement('div');
+    floatingScore.classList.add('floating-score');
+    floatingScore.textContent = '+' + value;
+    cells[index].appendChild(floatingScore);
+    setTimeout(() => floatingScore.remove(), 1000);
     score.textContent = Number(score.textContent) + value;
 };
 
@@ -80,10 +85,7 @@ const createBorder = () => {
         )
             cells[i].classList.add('static', 'border');
         
-        if (i > 0 && i < 11 ||
-            i > 12 && i < 23 ||
-            i > 24 && i < 35
-            ) 
+        if (i > 24 && i < 35)
             cells[i].classList.add('border_top');
     }
 };
@@ -91,7 +93,6 @@ const createBorder = () => {
 const createGrid = () => {
     for (let i = 0; i < cellsCount; ++i) {
         const divElem = document.createElement('div');
-        divElem.textContent = i;
         cells.push(divElem);
         grid.appendChild(divElem);
     }
@@ -120,10 +121,10 @@ const checkCells = () => {
         ) {
             [0, 1, 2].forEach(offset => {
                 cells[i + offset * direction].classList.remove(cellsInLine[0], 'static');
+                addScore(i + offset * direction, figureScore[figureTypes.findIndex(item => item === cellsInLine[0])]);
             });
             // circle +5 | cross +10 | triangle +25 | square +100
-            const addValue = figureScore[figureTypes.findIndex(item => item === cellsInLine[0])];
-            addScore(addValue);
+            
         }
     };
 
@@ -157,7 +158,7 @@ const checkCellsWithoutPivotPoint = () => {
 
     // check all adjoining cells
     const check = (i) => {
-        if (checked.has(i))
+        if (checked.has(i) || i < 35)
             return;
         // check all directions
         directions.forEach((direction) => {
@@ -315,7 +316,7 @@ const keyUpHandler = () => {
 /*------------------------------------------------*/
 createGrid();
 create();
-setInterval(update, gameUpdateInterval);
+setInterval(update, gameUpdateRate);
 
 
 
