@@ -16,12 +16,41 @@
     --color-cross: #9dced5;
     --color-triangle: #bda0cf;
     --color-square: #fdcb8e;
+
+    --color-difficulty: #9dced5;
+}
+
+body
+{
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+
+    height: 95vh;
+}
+
+h1,
+.strikethrough
+{
+    font-size: 22px;
+}
+
+li
+{
+    display: flex;
+    margin: 8px 0;
+}
+
+.strikethrough
+{
+    background: linear-gradient(-15deg, transparent 45%, var(--color-gray-dark) 47%, var(--color-gray-dark) 53%, transparent 55%);
 }
 
 .wrapper
 {
     display: flex;
-    width: 800px;
+    min-width: 860px;
 }
 
 .game-stats
@@ -31,6 +60,7 @@
 
     display: flex;
 
+    width: 300px;
     margin: 50px 0;
 }
 
@@ -42,9 +72,61 @@
     text-shadow: -1px 1px 2px #1c1c1c52;
 }
 
+.best-score
+{
+    margin-left: -40px;
+}
+
+.best-score__header
+{
+    margin-left: 40px;
+    text-align: center;
+}
+
+.best-score__score
+{
+    margin-left: auto;
+}
+
+.button
+{
+    width: 100px;
+    height: 50px;
+    border: 1px solid var(--color-gray);
+    background-color: var(--color-gray-light);
+}
+
+.button:hover
+{
+    cursor: pointer;
+    box-shadow: 0 0 1px 1px var(--color-gray);
+}
+
+.button:active
+{
+    filter: brightness(0.9);
+}
+
+.button:disabled
+{
+    filter: saturate(0.75);
+}
+
+.button:disabled:hover
+{
+    cursor: default;
+    box-shadow: none;
+}
+
+.button_change-difficulty
+{
+    background-color: var(--color-difficulty);
+}
+
 .grid
 {
     flex-wrap: wrap;
+    flex-shrink: 0;
 
     display: flex;
 
@@ -58,17 +140,18 @@
 {
     position: absolute;
     text-align: center;
-    line-height: 300px;
+    line-height: 650px;
     font-size: 50px;
     color: var(--color-gray-dark);
     text-shadow: -3px 3px 4px #1c1c1c52;
-    top: 25%;
-    left: 25%;
-    width: 300px;
-    height: 300px;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 650px;
     z-index: 10;
     content: 'Game over';
     opacity: 0;
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
 @keyframes opacityTo1 
@@ -134,9 +217,9 @@
 @keyframes scoreAnimation
 {
     0% {
-        box-shadow: 0 0 2px var(--color-gray);
+        box-shadow: 0 0 3px var(--color-gray);
     }
-    25% {
+    30% {
         box-shadow: 0 0 0 var(--color-gray);
         opacity: 1;
         transform: translateY(0);

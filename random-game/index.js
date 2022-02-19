@@ -14,7 +14,7 @@ const figureForms = [
     [[0, 1, 13, 14], [1, 13, 12, 24], [14, 13, 1, 0], [24, 12, 13, 1]]
 ];
 const figureTypes = ['circle', 'cross', 'triangle', 'square'];
-const figureScore = [5, 5, 25, 125];
+const figureScore = [5, 10, 75, 750];
 let activeFigure = [
     [0, 0],         // offset, type
     [1, 1],
@@ -24,16 +24,29 @@ let activeFigure = [
 let activeFigureForm = 0;
 let activeFigureRotation = 0;
 const pivotStartPosition = 4;   // figure pivot position
-let pivotPosition = pivotStartPosition;                  
+let pivotPosition = pivotStartPosition;
 
 
 // game
 const score = document.querySelector('.score');
 const buttonStartGame = document.querySelector('.button_start-game');
+
 let gameUpdateRate = 500;
 let gameUpdateInterval;
+let isPlaying = false;
+let isPaused = false;
+
 let lastPosition = 0;
+
 let difficulty = 2;
+let difficultyTypes = ['Why does it work?', 'You won\'t lose', 'Easy', 'Medium', 'Hard'];
+let difficultyColors = ['#ff0000', '#c6db8f', '#9dced5', '#bda0cf', '#fdcb8e'];
+const buttonChangeDifficulty = document.querySelector('.button_change-difficulty');
+
+// score
+const bestScoreNames = document.querySelectorAll('.best-score__name');
+const bestScoreScores = document.querySelectorAll('.best-score__score');
+let bestScoresData = [];
 
 // controls
 let keyPressed = false;
@@ -56,18 +69,49 @@ const update = () => {
     } else {
         lastPosition = pivotPosition;
     }
+    checkCells();
 };
 
 const startGame = () => {
+    if (isPlaying) {
+        clearInterval(gameUpdateInterval);
+
+        isPlaying = false;
+        isPaused = true;
+        isControlAllowed = false;
+
+        buttonStartGame.textContent = 'Resume';
+        return;
+    }
+    if (isPaused) {
+        gameUpdateInterval = setInterval(update, gameUpdateRate);
+
+        isPlaying = true;
+        isPaused = false;
+        isControlAllowed = true;
+
+        buttonStartGame.textContent = 'Pause';
+        return;
+    }
     restart();
     isControlAllowed = true;
+    buttonChangeDifficulty.disabled = true;
+    isPlaying = true;
+    buttonStartGame.textContent = 'Pause';
     gameUpdateInterval = setInterval(update, gameUpdateRate);
     grid.classList.remove('game-over');
 };
 
 const gameOver = () => {
-    isControlAllowed = false;
     clearInterval(gameUpdateInterval);
+
+
+    isPlaying = false;
+    isPaused = false;
+    isControlAllowed = false;
+
+    buttonChangeDifficulty.disabled = false;
+    buttonStartGame.textContent = 'Restart';
     grid.classList.add('game-over');
 };
 
@@ -77,6 +121,7 @@ const restart = () => {
     clearGrid();
     lastPosition = 0;
     pivotPosition = pivotStartPosition;
+    create();
     draw();
 };
 
@@ -87,6 +132,13 @@ const addScore = (index, value) => {
     cells[index].appendChild(floatingScore);
     setTimeout(() => floatingScore.remove(), 1000);
     score.textContent = Number(score.textContent) + value;
+};
+
+const changeDifficulty = () => {
+    difficulty++;
+    if (difficulty > 4) difficulty = 2;
+    buttonChangeDifficulty.textContent = difficultyTypes[difficulty];
+    document.documentElement.style.setProperty('--color-difficulty', difficultyColors[difficulty]);
 };
 
 
@@ -101,7 +153,7 @@ const createBorder = () => {
             ((i + 1) % 12) === 0
         )
             cells[i].classList.add('static', 'border');
-        
+
         if (i > 24 && i < 35)
             cells[i].classList.add('border_top');
     }
@@ -124,15 +176,18 @@ const clearGrid = () => {
 
 ///////////////////////////// REFACTOR ME //////////////////////////////
 const checkCells = () => {
+
     let cellsInLine;
     const clear = (i, direction) => {
         cellsInLine = (new Array(3))
             .fill()
             .map((_, offset) =>
                 [...cells[i + offset * direction].classList].filter(_class =>
-                    figureTypes.includes(_class)))
+                    figureTypes.includes(_class) || _class === 'active'))
             .flat(Infinity);
-        
+
+        if (cellsInLine.includes('active')) return;
+
         if (cellsInLine.length > 2 &&
             cellsInLine.every(elem => elem === cellsInLine[0])
         ) {
@@ -140,33 +195,32 @@ const checkCells = () => {
                 cells[i + offset * direction].classList.remove(cellsInLine[0], 'static');
                 addScore(i + offset * direction, figureScore[figureTypes.findIndex(item => item === cellsInLine[0])]);
             });
-            // circle +5 | cross +10 | triangle +25 | square +100
-            
         }
     };
 
     // checks 3 in a row
-    for (let i = 0; i < cellsCount; ++i){
+    for (let i = 0; i < cellsCount; ++i) {
         // →
         if (i > 36 && i < 153 && i % 12 > 0 && i % 12 < 9)
-            clear(i, 1); 
+            clear(i, 1);
         // ↓
         if (i > 36 && i < 131 && i % 12 > 0 && i % 12 < 11)
             clear(i, 12);
         // ↘
         if (i > 36 && i < 129 && i % 12 > 0 && i % 12 < 11)
-            clear(i, 13);  
+            clear(i, 13);
         // ↙
         if (i > 38 && i < 131 && i % 12 > 2 && i % 12 < 11)
             clear(i, 11);
     }
+
 };
 
 /////////////// refactor it later, it works and is good
 const checkCellsWithoutPivotPoint = () => {
     let temp; // rename it later
     // left, up, right, down
-    const directions = [-1, -12, 1, 12]; 
+    const directions = [-1, -12, 1, 12];
 
     // cells to check
     let needToCheck = (new Array(cellsCount)).fill().map((_, i) => i);
@@ -180,9 +234,9 @@ const checkCellsWithoutPivotPoint = () => {
         // check all directions
         directions.forEach((direction) => {
             temp = [1].map(() =>
-            [...cells[i + direction].classList]
-                .filter(_class =>
-                    figureTypes.includes(_class)))
+                [...cells[i + direction].classList]
+                    .filter(_class =>
+                        figureTypes.includes(_class)))
                 .flat(Infinity);
             if (temp.length > 0) {
                 checked.add(i);
@@ -209,7 +263,7 @@ const checkCellsWithoutPivotPoint = () => {
         if (!(i > 36 && i < 143 && i % 12 > 0 && i % 12 < 11)) continue;
         if ([...cells[i].classList].includes('active')) continue;
         if (cells[i].classList.length < 2) continue;
-        
+
         check(i);
         // if not grounded
         if (Array.from(checked).filter(index => index > 144 && index < 155).length === 0)
@@ -242,10 +296,10 @@ const draw = (newClass) => {
         cells[pivotPosition + cell[0]].classList.add('active', cell[1]);
 
         // fix
-        if (newClass){
+        if (newClass) {
             cells[pivotPosition + cell[0]].classList.remove('active');
             cells[pivotPosition + cell[0]].classList.add(newClass);
-        } 
+        }
     });
 };
 
@@ -268,11 +322,11 @@ const rotate = () => {
     activeFigureRotation += 1;
     if (activeFigureRotation > 3)
         activeFigureRotation = 0;
-    
+
     // rotate cells in active figure
     activeFigure.forEach((cell, i) =>
         cell[0] = figureForms[activeFigureForm][activeFigureRotation][i]);
-    
+
     // move pivot while there are collisions
     if (hasСollision()) {
         while (hasСollision()) {
@@ -290,7 +344,6 @@ const rotate = () => {
 const fix = () => {
     erase();
     draw('static');
-    checkCells();
     pivotPosition = pivotStartPosition;
     create();
 };
@@ -311,7 +364,7 @@ const keyDownHandler = (event) => {
         'd': 1,
         'в': 1
     };
-    
+
     if (event.key === '1')
         restart();
     if (event.key === 'Enter')
@@ -334,12 +387,43 @@ const keyUpHandler = () => {
 
 
 
+/*-------------------- local storage --------------------*/
+const saveLocalStorageData = () => {
+
+};
+
+const loadLocalStorageData = () => {
+    if (!localStorage.getItem('bestScoreData'))
+        localStorage.setItem('bestScoreData', JSON.stringify([
+            ['Alore', 25500],
+            ['Hollywaste', 25490],
+            ['ThunderHawk', 15025],
+            ['AtomicX', 13200],
+            ['T-Bone', 11220],
+            ['TechCluster', 11190],
+            ['Ace', 10000],
+            ['Smasher3000', 7500],
+            ['AcidBunny', 6990],
+            ['Honey', 6850]
+        ]));
+
+    bestScoresData = JSON.parse(localStorage.getItem('bestScoreData'));
+
+    bestScoreNames.forEach((_, i) => {
+        bestScoreNames[i].textContent = bestScoresData[i][0];
+        bestScoreScores[i].textContent = bestScoresData[i][1];
+    });
+};
+
+
+
 /*------------------------------------------------*/
 createGrid();
-create();
 
 
 
 window.addEventListener('keydown', keyDownHandler);
 window.addEventListener('keyup', keyUpHandler);
 buttonStartGame.addEventListener('click', startGame);
+buttonChangeDifficulty.addEventListener('click', changeDifficulty);
+loadLocalStorageData();
