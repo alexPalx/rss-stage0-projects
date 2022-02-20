@@ -25,25 +25,22 @@ let activeFigureForm = 0;
 let activeFigureRotation = 0;
 const pivotStartPosition = 4;   // figure pivot position
 let pivotPosition = pivotStartPosition;
+let lastPosition = 0;
 
-
-// game
-const score = document.querySelector('.score');
-const buttonStartGame = document.querySelector('.button_start-game');
-
+// update
 let gameUpdateRate = 500;
 let gameUpdateInterval;
 let isPlaying = false;
 let isPaused = false;
 
-let lastPosition = 0;
-
+// difficulty
 let difficulty = 2;
 let difficultyTypes = ['Why does it work?', 'You won\'t lose', 'Easy', 'Medium', 'Hard'];
 let difficultyColors = ['#ff0000', '#c6db8f', '#9dced5', '#bda0cf', '#fdcb8e'];
 const buttonChangeDifficulty = document.querySelector('.button_change-difficulty');
 
 // score
+const score = document.querySelector('.score');
 const bestScoreNames = document.querySelectorAll('.best-score__name');
 const bestScoreScores = document.querySelectorAll('.best-score__score');
 let bestScoresData = [];
@@ -51,6 +48,9 @@ let bestScoresData = [];
 // controls
 let keyPressed = false;
 let isControlAllowed = false;
+
+// 
+const buttonStartGame = document.querySelector('.button_start-game');
 
 
 
@@ -79,8 +79,9 @@ const startGame = () => {
         isPlaying = false;
         isPaused = true;
         isControlAllowed = false;
-
+        
         buttonStartGame.textContent = 'Resume';
+        grid.classList.add('paused');
         return;
     }
     if (isPaused) {
@@ -91,28 +92,49 @@ const startGame = () => {
         isControlAllowed = true;
 
         buttonStartGame.textContent = 'Pause';
+        grid.classList.remove('paused');
         return;
     }
     restart();
+    gameUpdateInterval = setInterval(update, gameUpdateRate);
+
+    isPlaying = true;
     isControlAllowed = true;
     buttonChangeDifficulty.disabled = true;
-    isPlaying = true;
+    buttonChangeDifficulty.title = 'You can\'t change the difficulty while playing!';
+
     buttonStartGame.textContent = 'Pause';
-    gameUpdateInterval = setInterval(update, gameUpdateRate);
     grid.classList.remove('game-over');
+    grid.classList.remove('paused');
 };
 
 const gameOver = () => {
     clearInterval(gameUpdateInterval);
 
-
     isPlaying = false;
     isPaused = false;
     isControlAllowed = false;
-
     buttonChangeDifficulty.disabled = false;
+    buttonChangeDifficulty.title = '';
+
     buttonStartGame.textContent = 'Restart';
     grid.classList.add('game-over');
+
+    const newScore = Number(score.textContent);
+    if (newScore > bestScoresData[bestScoresData.length - 1][1]) {
+        // if the player score exists, then update it, otherwise insert a new one
+        const playerRecordIndex = bestScoresData.findIndex(name => bestScoresData[name] === 'You');
+        if (playerRecordIndex !== -1)
+            bestScoresData[playerRecordIndex][1] = newScore;
+        else {
+            bestScoresData.push(['You', newScore]);
+            bestScoresData.sort((a, b) => b[1] - a[1]);
+            bestScoresData.pop();
+        }
+
+        saveLocalStorageData();
+        updateScores();
+    }
 };
 
 const restart = () => {
@@ -139,6 +161,15 @@ const changeDifficulty = () => {
     if (difficulty > 4) difficulty = 2;
     buttonChangeDifficulty.textContent = difficultyTypes[difficulty];
     document.documentElement.style.setProperty('--color-difficulty', difficultyColors[difficulty]);
+};
+
+const updateScores = () => {
+    bestScoresData.forEach((_, i) => {
+        bestScoreNames[i].textContent = bestScoresData[i][0];
+        if (bestScoreNames[i].textContent === 'Hollywaste')
+            bestScoreNames[i].title = 'Hi Catherine!';
+        bestScoreScores[i].textContent = bestScoresData[i][1];
+    });
 };
 
 
@@ -389,7 +420,7 @@ const keyUpHandler = () => {
 
 /*-------------------- local storage --------------------*/
 const saveLocalStorageData = () => {
-
+    localStorage.setItem('bestScoreData', JSON.stringify(bestScoresData));
 };
 
 const loadLocalStorageData = () => {
@@ -409,10 +440,7 @@ const loadLocalStorageData = () => {
 
     bestScoresData = JSON.parse(localStorage.getItem('bestScoreData'));
 
-    bestScoreNames.forEach((_, i) => {
-        bestScoreNames[i].textContent = bestScoresData[i][0];
-        bestScoreScores[i].textContent = bestScoresData[i][1];
-    });
+    updateScores();
 };
 
 
