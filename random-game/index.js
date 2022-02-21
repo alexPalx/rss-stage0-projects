@@ -36,7 +36,7 @@ let isPaused = false;
 // difficulty
 let difficulty = 2;
 let difficultyTypes = ['Why does it work?', 'You won\'t lose', 'Easy', 'Medium', 'Hard'];
-let difficultyColors = ['#ff0000', '#c6db8f', '#9dced5', '#bda0cf', '#fdcb8e'];
+let difficultyColors = ['#ff0000', '#ad9dff', '#c1f57d', '#ffe373', '#ff9c8a'];
 const buttonChangeDifficulty = document.querySelector('.button_change-difficulty');
 
 // score
@@ -76,6 +76,8 @@ const playSound = (src, volume = 1, rate = 1) => {
 };
 
 const mute = () => {
+    playSound(soundClick, 0.3, 2);
+
     muted = !muted;
     if (muted) {
         soundAmbient.volume = 0;
@@ -87,6 +89,22 @@ const mute = () => {
     }
 
     localStorage.setItem('muted', muted);
+};
+
+
+// help
+const helpWindow = document.querySelector('.help');
+const helpButton = document.querySelector('.help__button');
+const helpButtonClose = document.querySelector('.help__button_close');
+
+const showHelp = () => {
+    playSound(soundClick, 0.3, 2);
+    helpWindow.classList.add('show');
+};
+
+const closeHelp = () => {
+    playSound(soundClick, 0.3, 2);
+    helpWindow.classList.remove('show');
 };
 
 
@@ -170,9 +188,12 @@ const gameOver = () => {
     const newScore = Number(score.textContent);
     if (newScore > bestScoresData[bestScoresData.length - 1][1]) {
         // if the player score exists, then update it, otherwise insert a new one
-        const playerRecordIndex = bestScoresData.findIndex(name => bestScoresData[name] === 'You');
-        if (playerRecordIndex !== -1)
+        const playerRecordIndex = bestScoresData.findIndex(player => player[0] === 'You');
+        if (playerRecordIndex !== -1) {
             bestScoresData[playerRecordIndex][1] = newScore;
+            bestScoresData.sort((a, b) => b[1] - a[1]);
+        }
+            
         else {
             bestScoresData.push(['You', newScore]);
             bestScoresData.sort((a, b) => b[1] - a[1]);
@@ -445,6 +466,9 @@ const fix = () => {
 
 /*-------------------- control --------------------*/
 const keyDownHandler = (event) => {
+    if (event.key === 'ArrowDown')
+        startGame();
+    
     if (!isControlAllowed) return;
 
     const moveDirection = {
@@ -452,20 +476,14 @@ const keyDownHandler = (event) => {
         // 'ц': -12,
         // 's': 12,     // down also (temporarily)
         // 'ы': 12,
-        'a': -1,
-        'ф': -1,
-        'd': 1,
-        'в': 1
+        'ArrowLeft': -1,
+        'ArrowRight': 1
     };
-
-    if (event.key === '1')
-        restart();
-    if (event.key === 'Enter')
-        fix();
-    if (event.key === ' ') {
+    if (event.key === 'ArrowUp') {
         keyPressed = true;
         rotate();
     }
+    
     if (Object.keys(moveDirection).includes(event.key)) {
         keyPressed = true;
         move(moveDirection[event.key]);
@@ -520,4 +538,7 @@ window.addEventListener('keyup', keyUpHandler);
 buttonStartGame.addEventListener('click', startGame);
 buttonChangeDifficulty.addEventListener('click', changeDifficulty);
 buttonMute.addEventListener('click', mute);
+helpButton.addEventListener('click', showHelp);
+helpButtonClose.addEventListener('click', closeHelp);
+
 loadLocalStorageData();
