@@ -123,6 +123,22 @@ li
     background-color: var(--color-difficulty);
 }
 
+.button_sound
+{
+    width: 50px;
+    height: 50px;
+    background-image: url('assets/img/sound-on.svg');
+    background-size: 100%;
+}
+
+.button_sound.muted
+{
+    width: 50px;
+    height: 50px;
+    background-image: url('assets/img/sound-off.svg');
+    background-size: 100%;
+}
+
 .grid
 {
     flex-wrap: wrap;
@@ -161,7 +177,13 @@ li
 
 .grid.game-over::after
 {
+    content: 'Game over';
     animation: opacityTo1 0.5s linear forwards;
+}
+.grid.paused::after
+{
+    content: 'Paused';
+    opacity: 1;
 }
 
 .grid div

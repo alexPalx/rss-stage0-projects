@@ -52,6 +52,42 @@ let isControlAllowed = false;
 // 
 const buttonStartGame = document.querySelector('.button_start-game');
 
+// sounds
+const buttonMute = document.querySelector('.button_sound');
+
+let muted = false;
+
+const soundClick = new Audio('assets/sounds/click.mp3');
+const soundAddScore = new Audio('assets/sounds/add-score.mp3');
+const soundGameOver = new Audio('assets/sounds/game-over.mp3');
+const soundGameStart = new Audio('assets/sounds/game-over.mp3');
+const soundRotation =  new Audio('assets/sounds/rotation.mp3');
+
+const soundAmbient = new Audio('assets/sounds/ambient.mp3');
+soundAmbient.volume = 0.1;
+soundAmbient.loop = true;
+
+const playSound = (src, volume = 1, rate = 1) => {
+    if (muted) return;
+    const audio = new Audio(src.src);
+    audio.volume *= volume;
+    audio.playbackRate *= rate;
+    audio.play();
+};
+
+const mute = () => {
+    muted = !muted;
+    if (muted) {
+        soundAmbient.volume = 0;
+        buttonMute.classList.add('muted');
+    }
+    else if (!muted) {
+        soundAmbient.volume = 0.1;
+        buttonMute.classList.remove('muted');
+    }
+
+    localStorage.setItem('muted', muted);
+};
 
 
 /*-------------------- some methods --------------------*/
@@ -73,8 +109,13 @@ const update = () => {
 };
 
 const startGame = () => {
+    playSound(soundClick, 0.3, 2);
+    soundAmbient.play();
+
     if (isPlaying) {
         clearInterval(gameUpdateInterval);
+
+        soundAmbient.pause();
 
         isPlaying = false;
         isPaused = true;
@@ -86,6 +127,8 @@ const startGame = () => {
     }
     if (isPaused) {
         gameUpdateInterval = setInterval(update, gameUpdateRate);
+
+        soundAmbient.play();
 
         isPlaying = true;
         isPaused = false;
@@ -111,6 +154,10 @@ const startGame = () => {
 const gameOver = () => {
     clearInterval(gameUpdateInterval);
 
+    playSound(soundGameOver);
+    soundAmbient.pause();
+    soundAmbient.currentTime = 0;
+
     isPlaying = false;
     isPaused = false;
     isControlAllowed = false;
@@ -132,7 +179,7 @@ const gameOver = () => {
             bestScoresData.pop();
         }
 
-        saveLocalStorageData();
+        localStorage.setItem('bestScoreData', JSON.stringify(bestScoresData));
         updateScores();
     }
 };
@@ -148,6 +195,8 @@ const restart = () => {
 };
 
 const addScore = (index, value) => {
+    playSound(soundAddScore, 0.15);
+
     const floatingScore = document.createElement('div');
     floatingScore.classList.add('floating-score');
     floatingScore.textContent = '+' + value;
@@ -157,10 +206,21 @@ const addScore = (index, value) => {
 };
 
 const changeDifficulty = () => {
+    playSound(soundClick, 0.3, 2);
+
     difficulty++;
     if (difficulty > 4) difficulty = 2;
-    buttonChangeDifficulty.textContent = difficultyTypes[difficulty];
-    document.documentElement.style.setProperty('--color-difficulty', difficultyColors[difficulty]);
+
+    setDifficulty(difficulty);
+};
+
+const setDifficulty = (d) => {
+    difficulty = d;
+
+    buttonChangeDifficulty.textContent = difficultyTypes[d];
+    document.documentElement.style.setProperty('--color-difficulty', difficultyColors[d]);
+
+    localStorage.setItem('gameDifficulty', d);
 };
 
 const updateScores = () => {
@@ -349,6 +409,8 @@ const move = (direction) => {
 };
 
 const rotate = () => {
+    playSound(soundRotation, 0.15);
+
     erase();
     activeFigureRotation += 1;
     if (activeFigureRotation > 3)
@@ -386,10 +448,10 @@ const keyDownHandler = (event) => {
     if (!isControlAllowed) return;
 
     const moveDirection = {
-        'w': -12,    // the player is not allowed to move up (logically)
-        'ц': -12,
-        's': 12,     // down also (temporarily)
-        'ы': 12,
+        // 'w': -12,    // the player is not allowed to move up (logically)
+        // 'ц': -12,
+        // 's': 12,     // down also (temporarily)
+        // 'ы': 12,
         'a': -1,
         'ф': -1,
         'd': 1,
@@ -419,26 +481,29 @@ const keyUpHandler = () => {
 
 
 /*-------------------- local storage --------------------*/
-const saveLocalStorageData = () => {
-    localStorage.setItem('bestScoreData', JSON.stringify(bestScoresData));
-};
-
 const loadLocalStorageData = () => {
     if (!localStorage.getItem('bestScoreData'))
         localStorage.setItem('bestScoreData', JSON.stringify([
             ['Alore', 25500],
             ['Hollywaste', 25490],
+            ['Cactusik', 21000],
             ['ThunderHawk', 15025],
-            ['AtomicX', 13200],
-            ['T-Bone', 11220],
-            ['TechCluster', 11190],
-            ['Ace', 10000],
-            ['Smasher3000', 7500],
-            ['AcidBunny', 6990],
-            ['Honey', 6850]
+            ['AtomicX', 11220],
+            ['T-Bone', 9450],
+            ['Ace', 6665],
+            ['Smasher3000', 5205],
+            ['AcidBunny', 3315],
+            ['Honey', 2000]
         ]));
 
     bestScoresData = JSON.parse(localStorage.getItem('bestScoreData'));
+
+    muted = localStorage.getItem('muted') === 'true' ? true : false;
+    if (muted) {
+        soundAmbient.volume = 0;
+        buttonMute.classList.add('muted');
+    }
+        
 
     updateScores();
 };
@@ -447,11 +512,12 @@ const loadLocalStorageData = () => {
 
 /*------------------------------------------------*/
 createGrid();
-
+setDifficulty(Number(localStorage.getItem('gameDifficulty')) ?? 2);
 
 
 window.addEventListener('keydown', keyDownHandler);
 window.addEventListener('keyup', keyUpHandler);
 buttonStartGame.addEventListener('click', startGame);
 buttonChangeDifficulty.addEventListener('click', changeDifficulty);
+buttonMute.addEventListener('click', mute);
 loadLocalStorageData();
