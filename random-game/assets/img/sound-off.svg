@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><style>.cls-1{fill:#666;}.cls-2{fill:none;}</style></defs><title>Asset 5</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon class="cls-1" points="242.87 386.81 117.3 313.68 73.08 313.68 73.08 197.84 118.15 197.84 242.87 124.32 242.87 386.81"/><rect class="cls-1" x="339.97" y="154.12" width="26.08" height="198.99" transform="translate(-76.9 317.76) rotate(-44.18)"/><rect class="cls-1" x="339.97" y="154.12" width="26.08" height="198.99" transform="translate(430.49 681.32) rotate(-135.96)"/><rect class="cls-2" width="512" height="512"/></g></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#3D3D3D;}
+	.st1{fill:none;}
+</style>
+<title>Asset 5</title>
+<g id="Layer_2_1_">
+	<g id="Layer_1-2">
+		<polygon class="st0" points="242.9,386.8 117.3,313.7 73.1,313.7 73.1,197.8 118.2,197.8 242.9,124.3 		"/>
+		
+			<rect x="340" y="154.1" transform="matrix(0.7172 -0.6969 0.6969 0.7172 -76.8829 317.7457)" class="st0" width="26.1" height="199"/>
+		
+			<rect x="253.6" y="240.6" transform="matrix(0.6952 -0.7189 0.7189 0.6952 -74.7117 331.1266)" class="st0" width="199" height="26.1"/>
+		<rect y="0" class="st1" width="512" height="512"/>
+	</g>
+</g>
+</svg>
