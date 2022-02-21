@@ -545,7 +545,7 @@ const init = () => {
 
     loadLocalStorageData();
     createGrid();
-    setDifficulty(Number(localStorage.getItem('gameDifficulty')) ?? 2);
+    setDifficulty(Number(localStorage.getItem('gameDifficulty')) || 2);
 };
 
 
