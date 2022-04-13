@@ -113,17 +113,17 @@ const changeTextLang = () => {
 /*-------------------- beautiful date and time --------------------*/
 const setDatetimeText = () => {
     const months = [
-        ['January', 'Студзень'],
+        ['January', 'Cтудзень'],
         ['February', 'Люты'],
-        ['March', 'Сакавик'],
-        ['April', 'Красавик'],
-        ['May', 'Май'],
-        ['June', 'Червэнь'],
-        ['July', 'Липень'],
-        ['August', 'Жнивень'],
+        ['March', 'Сакавік'],
+        ['April', 'Красавік'],
+        ['May', 'Травень'],
+        ['June', 'Чэрвень'],
+        ['July', 'Ліпень'],
+        ['August', 'Жнівень'],
         ['September', 'Верасень'],
-        ['October', 'Кастрычник'],
-        ['November', 'Листапад'],
+        ['October', 'Кастрычнік'],
+        ['November', 'Лістапад'],
         ['December', 'Снежань']
     ];
     const daysWeek = [
